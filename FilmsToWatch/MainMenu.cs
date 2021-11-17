@@ -8,37 +8,76 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ExcelDataReader;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace FilmsToWatch
 {
     public partial class MainMenuForm : Form
     {
+        DataTable dtTable = new DataTable();
         public MainMenuForm()
         {
             InitializeComponent();
-            using (var stream = File.Open("D:\\Maun_folder\\CourseWork\\Films.xlsx", FileMode.Open, FileAccess.Read))
+            List<string> rowList = new List<string>();
+            ISheet sheet;
+            using (var stream = new FileStream("D:\\Maun_folder\\CourseWork\\Films2.xlsx", FileMode.Open, FileAccess.Read))
             {
-                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                stream.Position = 0;
+                XSSFWorkbook xssWorkbook = new XSSFWorkbook(stream);
+                sheet = xssWorkbook.GetSheetAt(0);
+                IRow headerRow = sheet.GetRow(0);
+                int cellCount = headerRow.LastCellNum;
+                for (int j = 0; j < cellCount; j++)
                 {
-                    do
+                    ICell cell = headerRow.GetCell(j);
+                    if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
                     {
-                        while (reader.Read())
+                        dtTable.Columns.Add(cell.ToString());
+                    }
+                }
+                for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
+                {
+                    IRow row = sheet.GetRow(i);
+                    if (row == null) continue;
+                    if (row.Cells.All(d => d.CellType == CellType.Blank)) continue;
+                    for (int j = row.FirstCellNum; j < cellCount; j++)
+                    {
+                        if (row.GetCell(j) != null)
                         {
-                            int a = Convert.ToInt32(reader.GetDouble(0));
-                            string b = reader.GetString(1);
-                            string c = reader.GetString(2);
-                            string d = reader.GetString(3);
-                            string e = reader.GetString(4);
-                            int f = Convert.ToInt32(reader.GetDouble(5));
-                            string g = reader.GetString(6);
-                            DateTime h = reader.GetDateTime(7);
-                            string i = reader.GetString(8);
-                            ulong j = Convert.ToUInt64(reader.GetDouble(9));
+                            if (!string.IsNullOrEmpty(row.GetCell(j).ToString()) && !string.IsNullOrWhiteSpace(row.GetCell(j).ToString()))
+                            {
+                                rowList.Add(row.GetCell(j).ToString());
+                            }
                         }
-                    } while (reader.NextResult());
+                    }
+                    if (rowList.Count > 0)
+                        dtTable.Rows.Add(rowList.ToArray());
+                    rowList.Clear();
                 }
             }
+            //using (var stream = File.Open("D:\\Maun_folder\\CourseWork\\Films.xlsx", FileMode.Open, FileAccess.Read))
+            //{
+            //    using (var reader = ExcelReaderFactory.CreateReader(stream))
+            //    {
+            //        do
+            //        {
+            //            while (reader.Read())
+            //            {
+            //                int a = Convert.ToInt32(reader.GetDouble(0));
+            //                string b = reader.GetString(1);
+            //                string c = reader.GetString(2);
+            //                string d = reader.GetString(3);
+            //                string e = reader.GetString(4);
+            //                int f = Convert.ToInt32(reader.GetDouble(5));
+            //                string g = reader.GetString(6);
+            //                DateTime h = reader.GetDateTime(7);
+            //                string i = reader.GetString(8);
+            //                ulong j = Convert.ToUInt64(reader.GetDouble(9));
+            //            }
+            //        } while (reader.NextResult());
+            //    }
+            //}
         }
 
         private void ShowProgram()
@@ -68,6 +107,7 @@ namespace FilmsToWatch
         private void MainMenuForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Hide();
+            trayIcon.ShowBalloonTip(5000);
             e.Cancel = true;
         }
 
@@ -80,6 +120,19 @@ namespace FilmsToWatch
         private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             ShowProgram();
+        }
+
+        private void MainMenuForm_Load(object sender, EventArgs e)
+        {
+            foreach (DataColumn dc in dtTable.Columns)
+            {
+                filmsDataGridView.Columns.Add(dc.ColumnName, dc.ColumnName);
+            }
+
+            foreach (DataRow dr in dtTable.Rows)
+            {
+                filmsDataGridView.Rows.Add(dr.ItemArray);
+            }
         }
     }
 }

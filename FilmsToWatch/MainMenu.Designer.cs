@@ -45,12 +45,18 @@ namespace FilmsToWatch
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filmsDataGridView = new System.Windows.Forms.DataGridView();
             this.trayMenuStrip.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.filmsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // trayIcon
             // 
+            this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.trayIcon.BalloonTipText = "FilmsToWatch is running in the background. To close - RMB click on the tray icon," +
+    " exit.";
+            this.trayIcon.BalloonTipTitle = "Notification";
             this.trayIcon.ContextMenuStrip = this.trayMenuStrip;
             this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
             this.trayIcon.Text = "FilmsToWatch";
@@ -146,29 +152,42 @@ namespace FilmsToWatch
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // filmsDataGridView
+            // 
+            this.filmsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.filmsDataGridView.Location = new System.Drawing.Point(12, 31);
+            this.filmsDataGridView.Name = "filmsDataGridView";
+            this.filmsDataGridView.RowHeadersWidth = 51;
+            this.filmsDataGridView.RowTemplate.Height = 24;
+            this.filmsDataGridView.Size = new System.Drawing.Size(776, 407);
+            this.filmsDataGridView.TabIndex = 2;
             // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.filmsDataGridView);
             this.Controls.Add(this.mainMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "MainMenuForm";
             this.Text = "FilmsToWatch";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMenuForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainMenuForm_Load);
             this.trayMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.filmsDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,6 +209,7 @@ namespace FilmsToWatch
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.DataGridView filmsDataGridView;
     }
 }
 
