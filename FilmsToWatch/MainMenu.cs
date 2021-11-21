@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NPOI.SS.Converter;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 
@@ -19,43 +20,7 @@ namespace FilmsToWatch
         public MainMenuForm()
         {
             InitializeComponent();
-            List<string> rowList = new List<string>();
-            ISheet sheet;
-            using (var stream = new FileStream("D:\\Maun_folder\\CourseWork\\Films2.xlsx", FileMode.Open, FileAccess.Read))
-            {
-                stream.Position = 0;
-                XSSFWorkbook xssWorkbook = new XSSFWorkbook(stream);
-                sheet = xssWorkbook.GetSheetAt(0);
-                IRow headerRow = sheet.GetRow(0);
-                int cellCount = headerRow.LastCellNum;
-                for (int j = 0; j < cellCount; j++)
-                {
-                    ICell cell = headerRow.GetCell(j);
-                    if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
-                    {
-                        dtTable.Columns.Add(cell.ToString());
-                    }
-                }
-                for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
-                {
-                    IRow row = sheet.GetRow(i);
-                    if (row == null) continue;
-                    if (row.Cells.All(d => d.CellType == CellType.Blank)) continue;
-                    for (int j = row.FirstCellNum; j < cellCount; j++)
-                    {
-                        if (row.GetCell(j) != null)
-                        {
-                            if (!string.IsNullOrEmpty(row.GetCell(j).ToString()) && !string.IsNullOrWhiteSpace(row.GetCell(j).ToString()))
-                            {
-                                rowList.Add(row.GetCell(j).ToString());
-                            }
-                        }
-                    }
-                    if (rowList.Count > 0)
-                        dtTable.Rows.Add(rowList.ToArray());
-                    rowList.Clear();
-                }
-            }
+            FillFilmsDataGridView();
             //using (var stream = File.Open("D:\\Maun_folder\\CourseWork\\Films.xlsx", FileMode.Open, FileAccess.Read))
             //{
             //    using (var reader = ExcelReaderFactory.CreateReader(stream))
@@ -78,6 +43,44 @@ namespace FilmsToWatch
             //        } while (reader.NextResult());
             //    }
             //}
+        }
+
+        private void FillFilmsDataGridView()
+        {
+            using (var stream = new FileStream("D:\\Maun_folder\\CourseWork\\Films2.xlsx", FileMode.Open, FileAccess.Read))
+            {
+                stream.Position = 0;
+                XSSFWorkbook xssWorkbook = new XSSFWorkbook(stream);
+                ISheet sheet = xssWorkbook.GetSheetAt(0);
+                IRow headerRow = sheet.GetRow(0);
+                int cellCount = headerRow.LastCellNum;
+                for (int j = 0; j < cellCount; j++)
+                {
+                    ICell cell = headerRow.GetCell(j);
+                    if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
+                    {
+                        filmsDataGridView.Columns.Add(cell.ToString(), cell.ToString());
+                    }
+                }
+                
+                for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
+                {
+                    IRow row = sheet.GetRow(i);
+                    if (row == null) continue;
+                    if (row.Cells.All(d => d.CellType == CellType.Blank)) continue;
+                    filmsDataGridView.Rows.Add();
+                    for (int j = row.FirstCellNum; j < cellCount; j++)
+                    {
+                        if (row.GetCell(j) != null)
+                        {
+                            if (!string.IsNullOrEmpty(row.GetCell(j).ToString()) && !string.IsNullOrWhiteSpace(row.GetCell(j).ToString()))
+                            {
+                                filmsDataGridView.Rows[i - 1].Cells[j].Value = row.GetCell(j).ToString();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void ShowProgram()
@@ -120,19 +123,6 @@ namespace FilmsToWatch
         private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             ShowProgram();
-        }
-
-        private void MainMenuForm_Load(object sender, EventArgs e)
-        {
-            foreach (DataColumn dc in dtTable.Columns)
-            {
-                filmsDataGridView.Columns.Add(dc.ColumnName, dc.ColumnName);
-            }
-
-            foreach (DataRow dr in dtTable.Rows)
-            {
-                filmsDataGridView.Rows.Add(dr.ItemArray);
-            }
         }
     }
 }

@@ -17,6 +17,6 @@ namespace FilmsToWatch
         private string productionCompany;
         private DateTime releasedDate;
         private string language;
-        private ulong budget;
+        private decimal budget;
     }
 }
