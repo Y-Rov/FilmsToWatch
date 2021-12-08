@@ -106,7 +106,7 @@ namespace FilmsToWatch
             this.aboutToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1006, 28);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1348, 28);
             this.mainMenuStrip.TabIndex = 1;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -145,15 +145,15 @@ namespace FilmsToWatch
             // 
             // filmsDataGridView
             // 
+            this.filmsDataGridView.AllowUserToResizeColumns = false;
+            this.filmsDataGridView.AllowUserToResizeRows = false;
             this.filmsDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.filmsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.filmsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.filmsDataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -162,7 +162,7 @@ namespace FilmsToWatch
             this.filmsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -172,7 +172,7 @@ namespace FilmsToWatch
             this.filmsDataGridView.Name = "filmsDataGridView";
             this.filmsDataGridView.RowHeadersWidth = 51;
             this.filmsDataGridView.RowTemplate.Height = 24;
-            this.filmsDataGridView.Size = new System.Drawing.Size(962, 637);
+            this.filmsDataGridView.Size = new System.Drawing.Size(1304, 637);
             this.filmsDataGridView.TabIndex = 2;
             // 
             // mainMenuTabControl
@@ -185,7 +185,7 @@ namespace FilmsToWatch
             this.mainMenuTabControl.Location = new System.Drawing.Point(12, 31);
             this.mainMenuTabControl.Name = "mainMenuTabControl";
             this.mainMenuTabControl.SelectedIndex = 0;
-            this.mainMenuTabControl.Size = new System.Drawing.Size(982, 678);
+            this.mainMenuTabControl.Size = new System.Drawing.Size(1324, 678);
             this.mainMenuTabControl.TabIndex = 3;
             // 
             // filmsListTabPage
@@ -194,7 +194,7 @@ namespace FilmsToWatch
             this.filmsListTabPage.Location = new System.Drawing.Point(4, 25);
             this.filmsListTabPage.Name = "filmsListTabPage";
             this.filmsListTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.filmsListTabPage.Size = new System.Drawing.Size(974, 649);
+            this.filmsListTabPage.Size = new System.Drawing.Size(1316, 649);
             this.filmsListTabPage.TabIndex = 0;
             this.filmsListTabPage.Text = "List of films";
             this.filmsListTabPage.UseVisualStyleBackColor = true;
@@ -204,7 +204,7 @@ namespace FilmsToWatch
             this.graphTabPage.Location = new System.Drawing.Point(4, 25);
             this.graphTabPage.Name = "graphTabPage";
             this.graphTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.graphTabPage.Size = new System.Drawing.Size(768, 378);
+            this.graphTabPage.Size = new System.Drawing.Size(1316, 649);
             this.graphTabPage.TabIndex = 1;
             this.graphTabPage.Text = "First graph";
             this.graphTabPage.UseVisualStyleBackColor = true;
@@ -213,11 +213,12 @@ namespace FilmsToWatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1006, 721);
+            this.ClientSize = new System.Drawing.Size(1348, 721);
             this.Controls.Add(this.mainMenuTabControl);
             this.Controls.Add(this.mainMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
+            this.MinimumSize = new System.Drawing.Size(1366, 768);
             this.Name = "MainMenuForm";
             this.Text = "FilmsToWatch";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMenuForm_FormClosing);
