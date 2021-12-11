@@ -8,15 +8,15 @@ namespace FilmsToWatch
 {
     class Film
     {
-        private int id;
-        private string title;
-        private string director;
-        private string genre;
-        private List<string> actorList;
-        private uint runningTimeInMinutes;
-        private string productionCompany;
-        private DateTime releasedDate;
-        private string language;
-        private decimal budget;
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Director { get; set; }
+        public string Genre { get; set; }
+        public List<string> ActorList { get; set; }
+        public int RunningTimeInMinutes { get; set; }
+        public string ProductionCompany { get; set; }
+        public DateTime? ReleasedDate { get; set; }
+        public string Language { get; set; }
+        public decimal Budget { get; set; }
     }
 }

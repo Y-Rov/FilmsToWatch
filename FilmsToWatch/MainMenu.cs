@@ -8,106 +8,84 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ExcelDataReader;
-using NPOI.SS.Converter;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 using IronXL;
 
 namespace FilmsToWatch
 {
     public partial class MainMenuForm : Form
     {
-        DataTable dtTable = new DataTable();
-        
-
+        private List<Film> availableFilms = new List<Film>();
         public MainMenuForm()
         {
             InitializeComponent();
             FillFilmsDataGridView();
-            using (var stream = File.Open(Path.GetDirectoryName(Application.ExecutablePath) + "\\Films3.xlsx", FileMode.Open, FileAccess.Read))
-            {
-                using (var reader = ExcelReaderFactory.CreateReader(stream))
-                {
-                    double ab = reader.GetColumnWidth(1);
-                    var result = reader.AsDataSet();
-                    
-                    do
-                    {
-                        while (reader.Read())
-                        {
-                            int a = Convert.ToInt32(reader.GetDouble(0));
-                            string b = reader.GetString(1);
-                            string c = reader.GetString(2);
-                            string d = reader.GetString(3);
-                            string e = reader.GetString(4);
-                            int f = Convert.ToInt32(reader.GetDouble(5));
-                            string g = reader.GetString(6);
-                            DateTime h = reader.GetDateTime(7);
-                            string i = reader.GetString(8);
-                            ulong j = Convert.ToUInt64(reader.GetDouble(9));
-                        }
-                    } while (reader.NextResult());
+        }
 
-                    
-                }
+        private void FillRow(ref WorkSheet sheet, int index)
+        {
+            filmsDataGridView.Rows[index - 2].Cells[0].Value = sheet[$"A{index}"].IntValue;
+            filmsDataGridView.Rows[index - 2].Cells[0].Style.Font = new Font(sheet[$"A{index}"].Style.Font.Name, sheet[$"A{index}"].Style.Font.Height);
+            filmsDataGridView.Rows[index - 2].Cells[1].Value = sheet[$"B{index}"].StringValue;
+            filmsDataGridView.Rows[index - 2].Cells[1].Style.Font = new Font(sheet[$"B{index}"].Style.Font.Name, sheet[$"B{index}"].Style.Font.Height);
+            filmsDataGridView.Rows[index - 2].Cells[2].Value = sheet[$"C{index}"].StringValue;
+            filmsDataGridView.Rows[index - 2].Cells[2].Style.Font = new Font(sheet[$"C{index}"].Style.Font.Name, sheet[$"C{index}"].Style.Font.Height);
+            filmsDataGridView.Rows[index - 2].Cells[3].Value = sheet[$"D{index}"].StringValue;
+            filmsDataGridView.Rows[index - 2].Cells[3].Style.Font = new Font(sheet[$"D{index}"].Style.Font.Name, sheet[$"D{index}"].Style.Font.Height);
+            filmsDataGridView.Rows[index - 2].Cells[4].Value = sheet[$"E{index}"].StringValue;
+            filmsDataGridView.Rows[index - 2].Cells[4].Style.Font = new Font(sheet[$"E{index}"].Style.Font.Name, sheet[$"E{index}"].Style.Font.Height);
+            filmsDataGridView.Rows[index - 2].Cells[5].Value = sheet[$"F{index}"].IntValue;
+            filmsDataGridView.Rows[index - 2].Cells[5].Style.Font = new Font(sheet[$"F{index}"].Style.Font.Name, sheet[$"F{index}"].Style.Font.Height);
+            filmsDataGridView.Rows[index - 2].Cells[6].Value = sheet[$"G{index}"].StringValue;
+            filmsDataGridView.Rows[index - 2].Cells[6].Style.Font = new Font(sheet[$"G{index}"].Style.Font.Name, sheet[$"G{index}"].Style.Font.Height);
+            DateTime? dateTimeValue = sheet[$"H{index}"].DateTimeValue;
+            if (dateTimeValue != null)
+            {
+                filmsDataGridView.Rows[index - 2].Cells[7].Value = dateTimeValue.Value.ToShortDateString();
+                filmsDataGridView.Rows[index - 2].Cells[7].Style.Font = new Font(sheet[$"H{index}"].Style.Font.Name, sheet[$"H{index}"].Style.Font.Height);
             }
+            filmsDataGridView.Rows[index - 2].Cells[8].Value = sheet[$"I{index}"].StringValue;
+            filmsDataGridView.Rows[index - 2].Cells[8].Style.Font = new Font(sheet[$"I{index}"].Style.Font.Name, sheet[$"I{index}"].Style.Font.Height);
+            filmsDataGridView.Rows[index - 2].Cells[9].Value = sheet[$"J{index}"].DecimalValue;
+            filmsDataGridView.Rows[index - 2].Cells[9].Style.Font = new Font(sheet[$"J{index}"].Style.Font.Name, sheet[$"J{index}"].Style.Font.Height);
         }
 
         private void FillFilmsDataGridView()
         {
-            // 50 177 148
-            // 1422 5034 4209
             WorkBook workbook = WorkBook.Load(Path.GetDirectoryName(Application.ExecutablePath) + "\\Films2.xlsx");
             WorkSheet sheet = workbook.WorkSheets.First();
-            
             int columnNumber = 0;
             foreach (var columnName in sheet["A1:J1"])
             {
                 filmsDataGridView.Columns.Add(columnName.ToString(), columnName.ToString());
-                filmsDataGridView.Columns[columnNumber].Width = (int)(sheet.GetColumn(columnNumber).Width / 28.44);
+                filmsDataGridView.Columns[columnNumber].HeaderCell.Style.Font = new Font(columnName.Style.Font.Name, columnName.Style.Font.Height);
+                filmsDataGridView.Columns[columnNumber].HeaderCell.Style.Alignment = (DataGridViewContentAlignment)columnName.Style.HorizontalAlignment;
+                //filmsDataGridView.Columns[columnNumber].Width = (int)(sheet.GetColumn(columnNumber).Width / 28.44);
+                //if (columnNumber == 9)
+                   // filmsDataGridView.Columns[columnNumber].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 ++columnNumber;
             }
-            int cellValue = sheet["A2"].IntValue;
-            // Read from Ranges of cells elegantly.
-            foreach (var cell in sheet["A2:B10"])
+
+            filmsDataGridView.Rows.Add(sheet.RowCount - 1);
+            for (int i = 2; i < sheet.RowCount; i++)
             {
-                Console.WriteLine("Cell {0} has value '{1}'", cell.AddressString, cell.Text);
+                filmsDataGridView.Rows[i - 2].Height = sheet.Rows[i - 1].Height / 12;
+                FillRow(ref sheet, i);
+                string[] actors = sheet[$"E{i}"].StringValue.Split(';', ',').Select(email => email.Trim()).ToArray();
+                Film film = new Film
+                {
+                    Id = sheet[$"A{i}"].IntValue,
+                    Title = sheet[$"B{i}"].StringValue,
+                    Director = sheet[$"C{i}"].StringValue,
+                    Genre = sheet[$"D{i}"].StringValue,
+                    ActorList = actors.ToList(),
+                    RunningTimeInMinutes = sheet[$"F{i}"].IntValue,
+                    ProductionCompany = sheet[$"G{i}"].StringValue,
+                    ReleasedDate = sheet[$"H{i}"].DateTimeValue,
+                    Language = sheet[$"I{i}"].StringValue,
+                    Budget = sheet[$"J{i}"].DecimalValue
+                };
+                availableFilms.Add(film);
             }
-            //using (var stream = new FileStream(Path.GetDirectoryName(Application.ExecutablePath) + "\\Films2.xlsx", FileMode.Open, FileAccess.Read))
-            //{
-            //    stream.Position = 0;
-            //    XSSFWorkbook xssWorkbook = new XSSFWorkbook(stream);
-            //    ISheet sheet = xssWorkbook.GetSheetAt(0);
-            //    IRow headerRow = sheet.GetRow(0);
-            //    int cellCount = headerRow.LastCellNum;
-            //    for (int j = 0; j < cellCount; j++)
-            //    {
-            //        ICell cell = headerRow.GetCell(j);
-            //        if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
-            //        {
-            //            filmsDataGridView.Columns.Add(cell.ToString(), cell.ToString());
-            //        }
-            //    }
-               
-            //    for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
-            //    {
-            //        IRow row = sheet.GetRow(i);
-            //        if (row == null) continue;
-            //        if (row.Cells.All(d => d.CellType == CellType.Blank)) continue;
-            //        filmsDataGridView.Rows.Add();
-            //        for (int j = row.FirstCellNum; j < cellCount; j++)
-            //        {
-            //            if (row.GetCell(j) != null)
-            //            {
-            //                if (!string.IsNullOrEmpty(row.GetCell(j).ToString()) && !string.IsNullOrWhiteSpace(row.GetCell(j).ToString()))
-            //                {
-            //                    filmsDataGridView.Rows[i - 1].Cells[j].Value = row.GetCell(j).ToString();
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
         }
 
         private void ShowProgram()
