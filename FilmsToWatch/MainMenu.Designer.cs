@@ -39,6 +39,9 @@ namespace FilmsToWatch
             this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.modeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.signInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +51,7 @@ namespace FilmsToWatch
             this.mainMenuTabControl = new System.Windows.Forms.TabControl();
             this.filmsListTabPage = new System.Windows.Forms.TabPage();
             this.graphTabPage = new System.Windows.Forms.TabPage();
+            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trayMenuStrip.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filmsDataGridView)).BeginInit();
@@ -101,14 +105,37 @@ namespace FilmsToWatch
             // 
             this.mainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.modeToolStripMenuItem,
             this.accountToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1348, 28);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1348, 30);
             this.mainMenuStrip.TabIndex = 1;
             this.mainMenuStrip.Text = "menuStrip1";
+            // 
+            // modeToolStripMenuItem
+            // 
+            this.modeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.searchToolStripMenuItem});
+            this.modeToolStripMenuItem.Name = "modeToolStripMenuItem";
+            this.modeToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
+            this.modeToolStripMenuItem.Text = "Mode";
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.editToolStripMenuItem.Text = "Edit";
             // 
             // accountToolStripMenuItem
             // 
@@ -116,7 +143,7 @@ namespace FilmsToWatch
             this.registerToolStripMenuItem,
             this.signInToolStripMenuItem});
             this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            this.accountToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
+            this.accountToolStripMenuItem.Size = new System.Drawing.Size(77, 26);
             this.accountToolStripMenuItem.Text = "Account";
             // 
             // registerToolStripMenuItem
@@ -134,13 +161,13 @@ namespace FilmsToWatch
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(76, 26);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // filmsDataGridView
@@ -174,8 +201,10 @@ namespace FilmsToWatch
             this.filmsDataGridView.Name = "filmsDataGridView";
             this.filmsDataGridView.RowHeadersWidth = 51;
             this.filmsDataGridView.RowTemplate.Height = 24;
-            this.filmsDataGridView.Size = new System.Drawing.Size(1304, 637);
+            this.filmsDataGridView.Size = new System.Drawing.Size(1304, 599);
             this.filmsDataGridView.TabIndex = 2;
+            this.filmsDataGridView.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.FilmsDataGridView_CellLeave);
+            this.filmsDataGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.FilmsDataGridView_CellValidating);
             // 
             // mainMenuTabControl
             // 
@@ -184,10 +213,10 @@ namespace FilmsToWatch
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainMenuTabControl.Controls.Add(this.filmsListTabPage);
             this.mainMenuTabControl.Controls.Add(this.graphTabPage);
-            this.mainMenuTabControl.Location = new System.Drawing.Point(12, 31);
+            this.mainMenuTabControl.Location = new System.Drawing.Point(12, 69);
             this.mainMenuTabControl.Name = "mainMenuTabControl";
             this.mainMenuTabControl.SelectedIndex = 0;
-            this.mainMenuTabControl.Size = new System.Drawing.Size(1324, 678);
+            this.mainMenuTabControl.Size = new System.Drawing.Size(1324, 640);
             this.mainMenuTabControl.TabIndex = 3;
             // 
             // filmsListTabPage
@@ -196,7 +225,7 @@ namespace FilmsToWatch
             this.filmsListTabPage.Location = new System.Drawing.Point(4, 25);
             this.filmsListTabPage.Name = "filmsListTabPage";
             this.filmsListTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.filmsListTabPage.Size = new System.Drawing.Size(1316, 649);
+            this.filmsListTabPage.Size = new System.Drawing.Size(1316, 611);
             this.filmsListTabPage.TabIndex = 0;
             this.filmsListTabPage.Text = "List of films";
             this.filmsListTabPage.UseVisualStyleBackColor = true;
@@ -206,10 +235,16 @@ namespace FilmsToWatch
             this.graphTabPage.Location = new System.Drawing.Point(4, 25);
             this.graphTabPage.Name = "graphTabPage";
             this.graphTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.graphTabPage.Size = new System.Drawing.Size(1316, 649);
+            this.graphTabPage.Size = new System.Drawing.Size(1316, 611);
             this.graphTabPage.TabIndex = 1;
             this.graphTabPage.Text = "First graph";
             this.graphTabPage.UseVisualStyleBackColor = true;
+            // 
+            // searchToolStripMenuItem
+            // 
+            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.searchToolStripMenuItem.Text = "Search";
             // 
             // MainMenuForm
             // 
@@ -252,6 +287,10 @@ namespace FilmsToWatch
         private System.Windows.Forms.TabPage graphTabPage;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
     }
 }
 

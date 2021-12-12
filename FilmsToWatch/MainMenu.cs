@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IronXL;
@@ -37,12 +38,8 @@ namespace FilmsToWatch
             filmsDataGridView.Rows[index - 2].Cells[5].Style.Font = new Font(sheet[$"F{index}"].Style.Font.Name, sheet[$"F{index}"].Style.Font.Height);
             filmsDataGridView.Rows[index - 2].Cells[6].Value = sheet[$"G{index}"].StringValue;
             filmsDataGridView.Rows[index - 2].Cells[6].Style.Font = new Font(sheet[$"G{index}"].Style.Font.Name, sheet[$"G{index}"].Style.Font.Height);
-            DateTime? dateTimeValue = sheet[$"H{index}"].DateTimeValue;
-            if (dateTimeValue != null)
-            {
-                filmsDataGridView.Rows[index - 2].Cells[7].Value = dateTimeValue.Value.ToShortDateString();
-                filmsDataGridView.Rows[index - 2].Cells[7].Style.Font = new Font(sheet[$"H{index}"].Style.Font.Name, sheet[$"H{index}"].Style.Font.Height);
-            }
+            filmsDataGridView.Rows[index - 2].Cells[7].Value = sheet[$"H{index}"].IntValue;
+            filmsDataGridView.Rows[index - 2].Cells[7].Style.Font = new Font(sheet[$"H{index}"].Style.Font.Name, sheet[$"H{index}"].Style.Font.Height);
             filmsDataGridView.Rows[index - 2].Cells[8].Value = sheet[$"I{index}"].StringValue;
             filmsDataGridView.Rows[index - 2].Cells[8].Style.Font = new Font(sheet[$"I{index}"].Style.Font.Name, sheet[$"I{index}"].Style.Font.Height);
             filmsDataGridView.Rows[index - 2].Cells[9].Value = sheet[$"J{index}"].DecimalValue;
@@ -59,9 +56,6 @@ namespace FilmsToWatch
                 filmsDataGridView.Columns.Add(columnName.ToString(), columnName.ToString());
                 filmsDataGridView.Columns[columnNumber].HeaderCell.Style.Font = new Font(columnName.Style.Font.Name, columnName.Style.Font.Height);
                 filmsDataGridView.Columns[columnNumber].HeaderCell.Style.Alignment = (DataGridViewContentAlignment)columnName.Style.HorizontalAlignment;
-                //filmsDataGridView.Columns[columnNumber].Width = (int)(sheet.GetColumn(columnNumber).Width / 28.44);
-                //if (columnNumber == 9)
-                   // filmsDataGridView.Columns[columnNumber].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 ++columnNumber;
             }
 
@@ -80,7 +74,7 @@ namespace FilmsToWatch
                     ActorList = actors.ToList(),
                     RunningTimeInMinutes = sheet[$"F{i}"].IntValue,
                     ProductionCompany = sheet[$"G{i}"].StringValue,
-                    ReleasedDate = sheet[$"H{i}"].DateTimeValue,
+                    ReleaseYear = sheet[$"H{i}"].IntValue,
                     Language = sheet[$"I{i}"].StringValue,
                     Budget = sheet[$"J{i}"].DecimalValue
                 };
@@ -97,6 +91,7 @@ namespace FilmsToWatch
         private void TrayIcon_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
+
             switch (WindowState)
             {
                 case FormWindowState.Normal:
@@ -128,6 +123,38 @@ namespace FilmsToWatch
         private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             ShowProgram();
+        }
+
+        private void FilmsDataGridView_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0 || e.ColumnIndex == 5 || e.ColumnIndex == 7 || e.ColumnIndex == 9)
+            {
+                if (filmsDataGridView[e.ColumnIndex, e.RowIndex].Value == null)
+                {
+
+                }
+            }
+
+        }
+
+        private void FilmsDataGridView_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            filmsDataGridView.Rows[e.RowIndex].ErrorText = string.Empty;
+            if (string.IsNullOrWhiteSpace(e.FormattedValue.ToString()))
+            {
+                filmsDataGridView.Rows[e.RowIndex].ErrorText = "Cell can not be empty!";
+                e.Cancel = true;
+            }
+
+            if (e.ColumnIndex == 0 || e.ColumnIndex == 5 || e.ColumnIndex == 7 || e.ColumnIndex == 9)
+            {
+                Match positiveNumberMatch = Regex.Match(e.FormattedValue.ToString(), @"^[1-9]\d*$");
+                if (!positiveNumberMatch.Success)
+                {
+                    filmsDataGridView.Rows[e.RowIndex].ErrorText = "Cell should be a positive number!";
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }
