@@ -16,6 +16,7 @@ namespace FilmsToWatch
     public partial class MainMenuForm : Form
     {
         private List<Film> availableFilms = new List<Film>();
+
         public MainMenuForm()
         {
             InitializeComponent();
@@ -24,26 +25,22 @@ namespace FilmsToWatch
 
         private void FillRow(ref WorkSheet sheet, int index)
         {
-            filmsDataGridView.Rows[index - 2].Cells[0].Value = sheet[$"A{index}"].IntValue;
-            filmsDataGridView.Rows[index - 2].Cells[0].Style.Font = new Font(sheet[$"A{index}"].Style.Font.Name, sheet[$"A{index}"].Style.Font.Height);
-            filmsDataGridView.Rows[index - 2].Cells[1].Value = sheet[$"B{index}"].StringValue;
-            filmsDataGridView.Rows[index - 2].Cells[1].Style.Font = new Font(sheet[$"B{index}"].Style.Font.Name, sheet[$"B{index}"].Style.Font.Height);
-            filmsDataGridView.Rows[index - 2].Cells[2].Value = sheet[$"C{index}"].StringValue;
-            filmsDataGridView.Rows[index - 2].Cells[2].Style.Font = new Font(sheet[$"C{index}"].Style.Font.Name, sheet[$"C{index}"].Style.Font.Height);
-            filmsDataGridView.Rows[index - 2].Cells[3].Value = sheet[$"D{index}"].StringValue;
-            filmsDataGridView.Rows[index - 2].Cells[3].Style.Font = new Font(sheet[$"D{index}"].Style.Font.Name, sheet[$"D{index}"].Style.Font.Height);
-            filmsDataGridView.Rows[index - 2].Cells[4].Value = sheet[$"E{index}"].StringValue;
-            filmsDataGridView.Rows[index - 2].Cells[4].Style.Font = new Font(sheet[$"E{index}"].Style.Font.Name, sheet[$"E{index}"].Style.Font.Height);
-            filmsDataGridView.Rows[index - 2].Cells[5].Value = sheet[$"F{index}"].IntValue;
-            filmsDataGridView.Rows[index - 2].Cells[5].Style.Font = new Font(sheet[$"F{index}"].Style.Font.Name, sheet[$"F{index}"].Style.Font.Height);
-            filmsDataGridView.Rows[index - 2].Cells[6].Value = sheet[$"G{index}"].StringValue;
-            filmsDataGridView.Rows[index - 2].Cells[6].Style.Font = new Font(sheet[$"G{index}"].Style.Font.Name, sheet[$"G{index}"].Style.Font.Height);
-            filmsDataGridView.Rows[index - 2].Cells[7].Value = sheet[$"H{index}"].IntValue;
-            filmsDataGridView.Rows[index - 2].Cells[7].Style.Font = new Font(sheet[$"H{index}"].Style.Font.Name, sheet[$"H{index}"].Style.Font.Height);
-            filmsDataGridView.Rows[index - 2].Cells[8].Value = sheet[$"I{index}"].StringValue;
-            filmsDataGridView.Rows[index - 2].Cells[8].Style.Font = new Font(sheet[$"I{index}"].Style.Font.Name, sheet[$"I{index}"].Style.Font.Height);
-            filmsDataGridView.Rows[index - 2].Cells[9].Value = sheet[$"J{index}"].DecimalValue;
-            filmsDataGridView.Rows[index - 2].Cells[9].Style.Font = new Font(sheet[$"J{index}"].Style.Font.Name, sheet[$"J{index}"].Style.Font.Height);
+            char tableLetter = 'A';
+            for (int i = 0; i < filmsDataGridView.RowCount - 2; i++, ++tableLetter)
+            {
+                if (i == 0 || i == 7 || i == 8)
+                {
+                    filmsDataGridView.Rows[index - 2].Cells[i].Value = sheet[$"{tableLetter}{index}"].IntValue;
+                    filmsDataGridView.Rows[index - 2].Cells[i].Style.Font = new Font(sheet[$"{tableLetter}{index}"].Style.Font.Name, sheet[$"{tableLetter}{index}"].Style.Font.Height);
+                }
+                else
+                {
+                    filmsDataGridView.Rows[index - 2].Cells[i].Value = sheet[$"{tableLetter}{index}"].StringValue;
+                    filmsDataGridView.Rows[index - 2].Cells[i].Style.Font = new Font(sheet[$"{tableLetter}{index}"].Style.Font.Name, sheet[$"{tableLetter}{index}"].Style.Font.Height);
+                }
+            }
+            filmsDataGridView.Rows[index - 2].Cells[9].Value = sheet[$"{tableLetter}{index}"].DecimalValue;
+            filmsDataGridView.Rows[index - 2].Cells[9].Style.Font = new Font(sheet[$"{tableLetter}{index}"].Style.Font.Name, sheet[$"{tableLetter}{index}"].Style.Font.Height);
         }
 
         private void FillFilmsDataGridView()
@@ -59,10 +56,12 @@ namespace FilmsToWatch
                 ++columnNumber;
             }
 
+            filmsDataGridView.Rows[0].Height = sheet.Rows[0].Height / 12;
             filmsDataGridView.Rows.Add(sheet.RowCount - 1);
-            for (int i = 2; i < sheet.RowCount; i++)
+            int a = filmsDataGridView.RowCount;
+            for (int i = 2; i <= sheet.RowCount; i++)
             {
-                filmsDataGridView.Rows[i - 2].Height = sheet.Rows[i - 1].Height / 12;
+                filmsDataGridView.Rows[i - 1].Height = sheet.Rows[i - 1].Height / 12;
                 FillRow(ref sheet, i);
                 string[] actors = sheet[$"E{i}"].StringValue.Split(';', ',').Select(email => email.Trim()).ToArray();
                 Film film = new Film
@@ -80,6 +79,8 @@ namespace FilmsToWatch
                 };
                 availableFilms.Add(film);
             }
+
+            filmsDataGridView.AllowUserToAddRows = false;
         }
 
         private void ShowProgram()
@@ -144,9 +145,10 @@ namespace FilmsToWatch
             {
                 filmsDataGridView.Rows[e.RowIndex].ErrorText = "Cell can not be empty!";
                 e.Cancel = true;
+                return;
             }
 
-            if (e.ColumnIndex == 0 || e.ColumnIndex == 5 || e.ColumnIndex == 7 || e.ColumnIndex == 9)
+            if (e.ColumnIndex == 0 || e.ColumnIndex == 7 || e.ColumnIndex == 8 || e.ColumnIndex == 9)
             {
                 Match positiveNumberMatch = Regex.Match(e.FormattedValue.ToString(), @"^[1-9]\d*$");
                 if (!positiveNumberMatch.Success)

@@ -42,6 +42,7 @@ namespace FilmsToWatch
             this.modeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.signInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +52,6 @@ namespace FilmsToWatch
             this.mainMenuTabControl = new System.Windows.Forms.TabControl();
             this.filmsListTabPage = new System.Windows.Forms.TabPage();
             this.graphTabPage = new System.Windows.Forms.TabPage();
-            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trayMenuStrip.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filmsDataGridView)).BeginInit();
@@ -111,7 +111,7 @@ namespace FilmsToWatch
             this.aboutToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1348, 30);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1348, 28);
             this.mainMenuStrip.TabIndex = 1;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -122,20 +122,26 @@ namespace FilmsToWatch
             this.editToolStripMenuItem,
             this.searchToolStripMenuItem});
             this.modeToolStripMenuItem.Name = "modeToolStripMenuItem";
-            this.modeToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
+            this.modeToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
             this.modeToolStripMenuItem.Text = "Mode";
             // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(136, 26);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(136, 26);
             this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // searchToolStripMenuItem
+            // 
+            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(136, 26);
+            this.searchToolStripMenuItem.Text = "Search";
             // 
             // accountToolStripMenuItem
             // 
@@ -143,7 +149,7 @@ namespace FilmsToWatch
             this.registerToolStripMenuItem,
             this.signInToolStripMenuItem});
             this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            this.accountToolStripMenuItem.Size = new System.Drawing.Size(77, 26);
+            this.accountToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
             this.accountToolStripMenuItem.Text = "Account";
             // 
             // registerToolStripMenuItem
@@ -161,13 +167,13 @@ namespace FilmsToWatch
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(76, 26);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // filmsDataGridView
@@ -239,12 +245,6 @@ namespace FilmsToWatch
             this.graphTabPage.TabIndex = 1;
             this.graphTabPage.Text = "First graph";
             this.graphTabPage.UseVisualStyleBackColor = true;
-            // 
-            // searchToolStripMenuItem
-            // 
-            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.searchToolStripMenuItem.Text = "Search";
             // 
             // MainMenuForm
             // 
