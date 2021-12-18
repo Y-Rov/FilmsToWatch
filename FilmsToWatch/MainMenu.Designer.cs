@@ -39,10 +39,12 @@ namespace FilmsToWatch
             this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
-            this.modeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewFilmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.signInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,7 +107,7 @@ namespace FilmsToWatch
             // 
             this.mainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.modeToolStripMenuItem,
+            this.actionToolStripMenuItem,
             this.accountToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.aboutToolStripMenuItem});
@@ -115,33 +117,51 @@ namespace FilmsToWatch
             this.mainMenuStrip.TabIndex = 1;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
-            // modeToolStripMenuItem
+            // actionToolStripMenuItem
             // 
-            this.modeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addNewFilmToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.searchToolStripMenuItem});
-            this.modeToolStripMenuItem.Name = "modeToolStripMenuItem";
-            this.modeToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
-            this.modeToolStripMenuItem.Text = "Mode";
+            this.searchToolStripMenuItem,
+            this.saveDataToolStripMenuItem});
+            this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
+            this.actionToolStripMenuItem.Size = new System.Drawing.Size(66, 24);
+            this.actionToolStripMenuItem.Text = "Action";
+            // 
+            // addNewFilmToolStripMenuItem
+            // 
+            this.addNewFilmToolStripMenuItem.Name = "addNewFilmToolStripMenuItem";
+            this.addNewFilmToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.addNewFilmToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.addNewFilmToolStripMenuItem.Text = "Add a new Film";
+            this.addNewFilmToolStripMenuItem.Click += new System.EventHandler(this.AddNewFilmToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(136, 26);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(136, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(136, 26);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
             this.searchToolStripMenuItem.Text = "Search";
+            // 
+            // saveDataToolStripMenuItem
+            // 
+            this.saveDataToolStripMenuItem.Name = "saveDataToolStripMenuItem";
+            this.saveDataToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveDataToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.saveDataToolStripMenuItem.Text = "Save Data";
+            this.saveDataToolStripMenuItem.Click += new System.EventHandler(this.SaveDataToolStripMenuItem_Click);
             // 
             // accountToolStripMenuItem
             // 
@@ -178,6 +198,7 @@ namespace FilmsToWatch
             // 
             // filmsDataGridView
             // 
+            this.filmsDataGridView.AllowUserToAddRows = false;
             this.filmsDataGridView.AllowUserToResizeColumns = false;
             this.filmsDataGridView.AllowUserToResizeRows = false;
             this.filmsDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -257,6 +278,7 @@ namespace FilmsToWatch
             this.MainMenuStrip = this.mainMenuStrip;
             this.MinimumSize = new System.Drawing.Size(1366, 768);
             this.Name = "MainMenuForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FilmsToWatch";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMenuForm_FormClosing);
             this.trayMenuStrip.ResumeLayout(false);
@@ -287,10 +309,12 @@ namespace FilmsToWatch
         private System.Windows.Forms.TabPage graphTabPage;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem modeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addNewFilmToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveDataToolStripMenuItem;
     }
 }
 

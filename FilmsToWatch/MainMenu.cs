@@ -10,13 +10,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IronXL;
+using IronXL.Options;
 
 namespace FilmsToWatch
 {
     public partial class MainMenuForm : Form
     {
-        private List<Film> availableFilms = new List<Film>();
-
+        public static List<Film> AvailableFilms = new List<Film>();
+        public static bool IsDataSaved = true;
         public MainMenuForm()
         {
             InitializeComponent();
@@ -45,6 +46,7 @@ namespace FilmsToWatch
 
         private void FillFilmsDataGridView()
         {
+            filmsDataGridView.AllowUserToAddRows = true;
             WorkBook workbook = WorkBook.Load(Path.GetDirectoryName(Application.ExecutablePath) + "\\Films2.xlsx");
             WorkSheet sheet = workbook.WorkSheets.First();
             int columnNumber = 0;
@@ -63,24 +65,24 @@ namespace FilmsToWatch
             {
                 filmsDataGridView.Rows[i - 1].Height = sheet.Rows[i - 1].Height / 12;
                 FillRow(ref sheet, i);
-                string[] actors = sheet[$"E{i}"].StringValue.Split(';', ',').Select(email => email.Trim()).ToArray();
                 Film film = new Film
                 {
                     Id = sheet[$"A{i}"].IntValue,
                     Title = sheet[$"B{i}"].StringValue,
                     Director = sheet[$"C{i}"].StringValue,
                     Genre = sheet[$"D{i}"].StringValue,
-                    ActorList = actors.ToList(),
+                    ActorList = sheet[$"E{i}"].StringValue.Split(';', ',').Select(email => email.Trim()).ToList(),
                     RunningTimeInMinutes = sheet[$"F{i}"].IntValue,
                     ProductionCompany = sheet[$"G{i}"].StringValue,
                     ReleaseYear = sheet[$"H{i}"].IntValue,
                     Language = sheet[$"I{i}"].StringValue,
                     Budget = sheet[$"J{i}"].DecimalValue
                 };
-                availableFilms.Add(film);
+                AvailableFilms.Add(film);
             }
 
             filmsDataGridView.AllowUserToAddRows = false;
+            workbook.Close();
         }
 
         private void ShowProgram()
@@ -118,6 +120,7 @@ namespace FilmsToWatch
         private void CloseMenuItem_Click(object sender, EventArgs e)
         {
             trayIcon.Dispose();
+            Dispose(true);
             Application.ExitThread();
         }
 
@@ -157,6 +160,30 @@ namespace FilmsToWatch
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void AddNewFilmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int lastFilmCount = AvailableFilms.Count;
+            Form addFilmForm = new NewFilmForm();
+            addFilmForm.ShowDialog();
+            addFilmForm.Dispose();
+            filmsDataGridView.AllowUserToAddRows = true;
+            for (int i = lastFilmCount; i < AvailableFilms.Count; i++)
+            {
+                filmsDataGridView.Rows.Add(AvailableFilms[i].Id, AvailableFilms[i].Title, AvailableFilms[i].Director,
+                    AvailableFilms[i].Genre, AvailableFilms[i].ActorList.ToArray(), AvailableFilms[i].ProductionCompany, 
+                    AvailableFilms[i].Language, AvailableFilms[i].ReleaseYear,
+                    AvailableFilms[i].RunningTimeInMinutes, AvailableFilms[i].Budget);
+            }
+
+            filmsDataGridView.AllowUserToAddRows = false;
+        }
+
+        private void SaveDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WorkBook workBook = WorkBook.Load(Path.GetDirectoryName(Application.ExecutablePath) + "\\Films2.xlsx");
+            //WorkSheet sheet = workbook.WorkSheets.First();
         }
     }
 }
