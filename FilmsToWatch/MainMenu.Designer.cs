@@ -133,33 +133,33 @@ namespace FilmsToWatch
             // 
             this.addNewFilmToolStripMenuItem.Name = "addNewFilmToolStripMenuItem";
             this.addNewFilmToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.addNewFilmToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
-            this.addNewFilmToolStripMenuItem.Text = "Add a new Film";
+            this.addNewFilmToolStripMenuItem.Size = new System.Drawing.Size(209, 26);
+            this.addNewFilmToolStripMenuItem.Text = "New Film";
             this.addNewFilmToolStripMenuItem.Click += new System.EventHandler(this.AddNewFilmToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(209, 26);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(209, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(209, 26);
             this.searchToolStripMenuItem.Text = "Search";
             // 
             // saveDataToolStripMenuItem
             // 
             this.saveDataToolStripMenuItem.Name = "saveDataToolStripMenuItem";
             this.saveDataToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveDataToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.saveDataToolStripMenuItem.Size = new System.Drawing.Size(209, 26);
             this.saveDataToolStripMenuItem.Text = "Save Data";
             this.saveDataToolStripMenuItem.Click += new System.EventHandler(this.SaveDataToolStripMenuItem_Click);
             // 
@@ -230,7 +230,8 @@ namespace FilmsToWatch
             this.filmsDataGridView.RowTemplate.Height = 24;
             this.filmsDataGridView.Size = new System.Drawing.Size(1304, 599);
             this.filmsDataGridView.TabIndex = 2;
-            this.filmsDataGridView.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.FilmsDataGridView_CellLeave);
+            this.filmsDataGridView.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.FilmsDataGridView_CellBeginEdit);
+            this.filmsDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.FilmsDataGridView_CellEndEdit);
             this.filmsDataGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.FilmsDataGridView_CellValidating);
             // 
             // mainMenuTabControl

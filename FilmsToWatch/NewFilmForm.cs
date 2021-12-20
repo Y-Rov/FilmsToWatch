@@ -17,6 +17,28 @@ namespace FilmsToWatch
             InitializeComponent();
         }
 
+        private void CheckEnteredText(object sender, KeyPressEventArgs e)
+        {
+
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) &&
+                e.KeyChar != '-' && e.KeyChar != '\'' && e.KeyChar != ' ')
+            {
+                e.Handled = true;
+            }
+
+            switch (e.KeyChar)
+            {
+                case '-' when ((TextBox)sender).SelectionStart == 0:
+                case '-' when ((TextBox)sender).Text.IndexOf(e.KeyChar) > -1:
+                case '\'' when ((TextBox)sender).SelectionStart == 0:
+                case '\'' when ((TextBox)sender).Text.IndexOf(e.KeyChar) > -1:
+                case ' ' when ((TextBox)sender).SelectionStart == 0:
+                case ' ' when ((TextBox)sender).Text.IndexOf(e.KeyChar) > -1:
+                    e.Handled = true;
+                    break;
+            }
+        }
+
         private void AddButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(titleTextBox.Text) || string.IsNullOrWhiteSpace(directorTextBox.Text) ||
@@ -37,14 +59,14 @@ namespace FilmsToWatch
             Film newFilm = new Film
             {
                 Id = MainMenuForm.AvailableFilms.Count + 1,
-                Title = titleTextBox.Text,
-                Director = directorTextBox.Text,
-                Genre = genreTextBox.Text,
-                ActorList = actorsRichTextBox.Text.Split(';', ',').Select(email => email.Trim()).ToList(),
-                ProductionCompany = productionTextBox.Text,
-                Language = languageTextBox.Text,
-                ReleaseYear = (int)releaseYearNumericUpDown.Value,
-                RunningTimeInMinutes = (int)runningTimeNumericUpDown.Value,
+                Title = titleTextBox.Text.Trim(),
+                Director = directorTextBox.Text.Trim(),
+                Genre = genreTextBox.Text.Trim(),
+                ActorList = actorsRichTextBox.Text.Split(';', ',').Select(actor => actor.Trim()).ToList(),
+                ProductionCompany = productionTextBox.Text.Trim(),
+                Language = languageTextBox.Text.Trim(),
+                ReleaseYear = (int)runningTimeNumericUpDown.Value,
+                RunningTimeInMinutes = (int)releaseYearNumericUpDown.Value,
                 Budget = budgetNumericUpDown.Value
             };
             MainMenuForm.AvailableFilms.Add(newFilm);
