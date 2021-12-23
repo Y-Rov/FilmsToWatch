@@ -62,11 +62,11 @@ namespace FilmsToWatch
                 Title = titleTextBox.Text.Trim(),
                 Director = directorTextBox.Text.Trim(),
                 Genre = genreTextBox.Text.Trim(),
-                ActorList = actorsRichTextBox.Text.Split(';', ',').Select(actor => actor.Trim()).ToList(),
+                Actors = actorsRichTextBox.Text.Trim(),
                 ProductionCompany = productionTextBox.Text.Trim(),
                 Language = languageTextBox.Text.Trim(),
-                ReleaseYear = (int)runningTimeNumericUpDown.Value,
-                RunningTimeInMinutes = (int)releaseYearNumericUpDown.Value,
+                ReleaseYear = (int)releaseYearNumericUpDown.Value,
+                RunningTimeInMinutes = (int)runningTimeNumericUpDown.Value,
                 Budget = budgetNumericUpDown.Value
             };
             MainMenuForm.AvailableFilms.Add(newFilm);
