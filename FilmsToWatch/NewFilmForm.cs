@@ -49,16 +49,15 @@ namespace FilmsToWatch
                 return;
             }
 
-            if (MainMenuForm.AvailableFilms.Exists(film => film.Title == titleTextBox.Text))
+            if (MainMenuForm.FilmExists(MainMenuForm.NewFilms, film => film.Title == titleTextBox.Text))
             {
                 MessageBox.Show($@"Film ""{titleTextBox.Text}"" already exists!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MainMenuForm.IsDataSaved = false;
             Film newFilm = new Film
             {
-                Id = MainMenuForm.AvailableFilms.Count + 1,
+                Id = ++MainMenuForm.CurrentQuantityOfFilms,
                 Title = titleTextBox.Text.Trim(),
                 Director = directorTextBox.Text.Trim(),
                 Genre = genreTextBox.Text.Trim(),
@@ -69,7 +68,7 @@ namespace FilmsToWatch
                 RunningTimeInMinutes = (int)runningTimeNumericUpDown.Value,
                 Budget = budgetNumericUpDown.Value
             };
-            MainMenuForm.AvailableFilms.Add(newFilm);
+            MainMenuForm.NewFilms.AddLast(newFilm);
             MessageBox.Show($@"Film ""{newFilm.Title}"" was added successfully!", @"Success", MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
         }
