@@ -45,7 +45,7 @@ namespace FilmsToWatch
                 string.IsNullOrWhiteSpace(genreTextBox.Text) || string.IsNullOrWhiteSpace(actorsRichTextBox.Text) ||
                 string.IsNullOrWhiteSpace(languageTextBox.Text))
             {
-                MessageBox.Show(@"All cells must be filled!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"All cells must be non-empty or non-only-whitespace!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

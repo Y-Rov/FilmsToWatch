@@ -31,17 +31,19 @@ namespace FilmsToWatch
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenuForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.trayMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,14 +52,14 @@ namespace FilmsToWatch
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewFilmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.signInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filmsDataGridView = new System.Windows.Forms.DataGridView();
@@ -66,13 +68,15 @@ namespace FilmsToWatch
             this.genreGraphTabPage = new System.Windows.Forms.TabPage();
             this.filmGenresChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.releaseYearGraphTabPage = new System.Windows.Forms.TabPage();
+            this.releaseYearChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.filmBudgetGraphTabPage = new System.Windows.Forms.TabPage();
+            this.budgetChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.searchLabel = new System.Windows.Forms.Label();
             this.columnsComboBox = new System.Windows.Forms.ComboBox();
             this.columnLabel = new System.Windows.Forms.Label();
             this.searchTextBox = new System.Windows.Forms.TextBox();
-            this.releaseYearChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.budgetChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.registeredUsersTabPage = new System.Windows.Forms.TabPage();
+            this.usersDataGridView = new System.Windows.Forms.DataGridView();
             this.trayMenuStrip.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filmsDataGridView)).BeginInit();
@@ -81,9 +85,11 @@ namespace FilmsToWatch
             this.genreGraphTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.filmGenresChart)).BeginInit();
             this.releaseYearGraphTabPage.SuspendLayout();
-            this.filmBudgetGraphTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.releaseYearChart)).BeginInit();
+            this.filmBudgetGraphTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.budgetChart)).BeginInit();
+            this.registeredUsersTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.usersDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // trayIcon
@@ -147,10 +153,9 @@ namespace FilmsToWatch
             // 
             this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addNewFilmToolStripMenuItem,
-            this.searchToolStripMenuItem,
             this.saveDataToolStripMenuItem});
             this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
-            this.actionToolStripMenuItem.Size = new System.Drawing.Size(66, 24);
+            this.actionToolStripMenuItem.Size = new System.Drawing.Size(66, 26);
             this.actionToolStripMenuItem.Text = "Action";
             // 
             // addNewFilmToolStripMenuItem
@@ -160,12 +165,6 @@ namespace FilmsToWatch
             this.addNewFilmToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
             this.addNewFilmToolStripMenuItem.Text = "New Film";
             this.addNewFilmToolStripMenuItem.Click += new System.EventHandler(this.AddNewFilmToolStripMenuItem_Click);
-            // 
-            // searchToolStripMenuItem
-            // 
-            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
-            this.searchToolStripMenuItem.Text = "Search";
             // 
             // saveDataToolStripMenuItem
             // 
@@ -181,7 +180,7 @@ namespace FilmsToWatch
             this.undoToolStripMenuItem,
             this.redoToolStripMenuItem});
             this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
-            this.editToolStripMenuItem1.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem1.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem1.Text = "Edit";
             // 
             // undoToolStripMenuItem
@@ -202,9 +201,10 @@ namespace FilmsToWatch
             // 
             this.accountToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.registerToolStripMenuItem,
-            this.signInToolStripMenuItem});
+            this.logInToolStripMenuItem,
+            this.logOutToolStripMenuItem});
             this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            this.accountToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
+            this.accountToolStripMenuItem.Size = new System.Drawing.Size(77, 26);
             this.accountToolStripMenuItem.Text = "Account";
             // 
             // registerToolStripMenuItem
@@ -212,17 +212,25 @@ namespace FilmsToWatch
             this.registerToolStripMenuItem.Name = "registerToolStripMenuItem";
             this.registerToolStripMenuItem.Size = new System.Drawing.Size(146, 26);
             this.registerToolStripMenuItem.Text = "Register";
+            this.registerToolStripMenuItem.Click += new System.EventHandler(this.RegisterToolStripMenuItem_Click);
             // 
-            // signInToolStripMenuItem
+            // logInToolStripMenuItem
             // 
-            this.signInToolStripMenuItem.Name = "signInToolStripMenuItem";
-            this.signInToolStripMenuItem.Size = new System.Drawing.Size(146, 26);
-            this.signInToolStripMenuItem.Text = "Login";
+            this.logInToolStripMenuItem.Name = "logInToolStripMenuItem";
+            this.logInToolStripMenuItem.Size = new System.Drawing.Size(146, 26);
+            this.logInToolStripMenuItem.Text = "Login";
+            this.logInToolStripMenuItem.Click += new System.EventHandler(this.LogInToolStripMenuItem_Click);
+            // 
+            // logOutToolStripMenuItem
+            // 
+            this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
+            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(146, 26);
+            this.logOutToolStripMenuItem.Text = "Log out";
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(76, 26);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // aboutToolStripMenuItem
@@ -230,6 +238,7 @@ namespace FilmsToWatch
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // filmsDataGridView
             // 
@@ -242,23 +251,23 @@ namespace FilmsToWatch
             this.filmsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.filmsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.filmsDataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.filmsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.filmsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.filmsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.filmsDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.filmsDataGridView.DefaultCellStyle = dataGridViewCellStyle10;
             this.filmsDataGridView.Location = new System.Drawing.Point(6, 6);
             this.filmsDataGridView.Name = "filmsDataGridView";
             this.filmsDataGridView.RowHeadersWidth = 51;
@@ -279,11 +288,13 @@ namespace FilmsToWatch
             this.mainMenuTabControl.Controls.Add(this.genreGraphTabPage);
             this.mainMenuTabControl.Controls.Add(this.releaseYearGraphTabPage);
             this.mainMenuTabControl.Controls.Add(this.filmBudgetGraphTabPage);
+            this.mainMenuTabControl.Controls.Add(this.registeredUsersTabPage);
             this.mainMenuTabControl.Location = new System.Drawing.Point(12, 84);
             this.mainMenuTabControl.Name = "mainMenuTabControl";
             this.mainMenuTabControl.SelectedIndex = 0;
             this.mainMenuTabControl.Size = new System.Drawing.Size(1324, 625);
             this.mainMenuTabControl.TabIndex = 3;
+            this.mainMenuTabControl.SelectedIndexChanged += new System.EventHandler(this.MainMenuTabControl_SelectedIndexChanged);
             // 
             // filmsListTabPage
             // 
@@ -312,21 +323,25 @@ namespace FilmsToWatch
             this.filmGenresChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea1.Name = "ChartArea1";
-            this.filmGenresChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.filmGenresChart.Legends.Add(legend1);
+            chartArea7.AxisX.IsLabelAutoFit = false;
+            chartArea7.AxisX.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea7.AxisX.Title = "Genres";
+            chartArea7.AxisX.TitleFont = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea7.AxisY.IsLabelAutoFit = false;
+            chartArea7.AxisY.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea7.AxisY.Title = "Quantity of films";
+            chartArea7.AxisY.TitleFont = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea7.Name = "ChartArea1";
+            this.filmGenresChart.ChartAreas.Add(chartArea7);
+            legend7.Name = "Legend1";
+            this.filmGenresChart.Legends.Add(legend7);
             this.filmGenresChart.Location = new System.Drawing.Point(6, 6);
             this.filmGenresChart.Name = "filmGenresChart";
-            series1.ChartArea = "ChartArea1";
-            series1.IsVisibleInLegend = false;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.filmGenresChart.Series.Add(series1);
+            series7.ChartArea = "ChartArea1";
+            series7.IsVisibleInLegend = false;
+            series7.Legend = "Legend1";
+            series7.Name = "Series1";
+            this.filmGenresChart.Series.Add(series7);
             this.filmGenresChart.Size = new System.Drawing.Size(1304, 584);
             this.filmGenresChart.TabIndex = 0;
             this.filmGenresChart.Text = "chart1";
@@ -341,6 +356,35 @@ namespace FilmsToWatch
             this.releaseYearGraphTabPage.Text = "Release Year Graph";
             this.releaseYearGraphTabPage.UseVisualStyleBackColor = true;
             // 
+            // releaseYearChart
+            // 
+            this.releaseYearChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea8.AxisX.IsLabelAutoFit = false;
+            chartArea8.AxisX.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea8.AxisX.Title = "Release year";
+            chartArea8.AxisX.TitleFont = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea8.AxisY.IsLabelAutoFit = false;
+            chartArea8.AxisY.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea8.AxisY.Title = "Quantity of films";
+            chartArea8.AxisY.TitleFont = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea8.Name = "ChartArea1";
+            this.releaseYearChart.ChartAreas.Add(chartArea8);
+            legend8.Name = "Legend1";
+            this.releaseYearChart.Legends.Add(legend8);
+            this.releaseYearChart.Location = new System.Drawing.Point(4, 3);
+            this.releaseYearChart.Name = "releaseYearChart";
+            series8.ChartArea = "ChartArea1";
+            series8.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            series8.IsVisibleInLegend = false;
+            series8.Legend = "Legend1";
+            series8.Name = "Series1";
+            this.releaseYearChart.Series.Add(series8);
+            this.releaseYearChart.Size = new System.Drawing.Size(1309, 590);
+            this.releaseYearChart.TabIndex = 0;
+            this.releaseYearChart.Text = "chart1";
+            // 
             // filmBudgetGraphTabPage
             // 
             this.filmBudgetGraphTabPage.Controls.Add(this.budgetChart);
@@ -351,10 +395,38 @@ namespace FilmsToWatch
             this.filmBudgetGraphTabPage.Text = "Film Budget Graph";
             this.filmBudgetGraphTabPage.UseVisualStyleBackColor = true;
             // 
+            // budgetChart
+            // 
+            this.budgetChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea9.AxisX.IsLabelAutoFit = false;
+            chartArea9.AxisX.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea9.AxisX.Title = "Budget";
+            chartArea9.AxisX.TitleFont = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea9.AxisY.IsLabelAutoFit = false;
+            chartArea9.AxisY.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea9.AxisY.Title = "Quantity of films";
+            chartArea9.AxisY.TitleFont = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea9.Name = "ChartArea1";
+            this.budgetChart.ChartAreas.Add(chartArea9);
+            legend9.Name = "Legend1";
+            this.budgetChart.Legends.Add(legend9);
+            this.budgetChart.Location = new System.Drawing.Point(4, 3);
+            this.budgetChart.Name = "budgetChart";
+            series9.ChartArea = "ChartArea1";
+            series9.IsVisibleInLegend = false;
+            series9.Legend = "Legend1";
+            series9.Name = "Series1";
+            this.budgetChart.Series.Add(series9);
+            this.budgetChart.Size = new System.Drawing.Size(1309, 590);
+            this.budgetChart.TabIndex = 0;
+            this.budgetChart.Text = "chart1";
+            // 
             // searchLabel
             // 
             this.searchLabel.AutoSize = true;
-            this.searchLabel.Location = new System.Drawing.Point(281, 48);
+            this.searchLabel.Location = new System.Drawing.Point(279, 43);
             this.searchLabel.Name = "searchLabel";
             this.searchLabel.Size = new System.Drawing.Size(57, 17);
             this.searchLabel.TabIndex = 4;
@@ -363,7 +435,7 @@ namespace FilmsToWatch
             // columnsComboBox
             // 
             this.columnsComboBox.FormattingEnabled = true;
-            this.columnsComboBox.Location = new System.Drawing.Point(82, 45);
+            this.columnsComboBox.Location = new System.Drawing.Point(80, 40);
             this.columnsComboBox.Name = "columnsComboBox";
             this.columnsComboBox.Size = new System.Drawing.Size(181, 24);
             this.columnsComboBox.TabIndex = 5;
@@ -371,7 +443,7 @@ namespace FilmsToWatch
             // columnLabel
             // 
             this.columnLabel.AutoSize = true;
-            this.columnLabel.Location = new System.Drawing.Point(17, 48);
+            this.columnLabel.Location = new System.Drawing.Point(15, 43);
             this.columnLabel.Name = "columnLabel";
             this.columnLabel.Size = new System.Drawing.Size(59, 17);
             this.columnLabel.TabIndex = 6;
@@ -379,54 +451,55 @@ namespace FilmsToWatch
             // 
             // searchTextBox
             // 
-            this.searchTextBox.Location = new System.Drawing.Point(344, 45);
+            this.searchTextBox.Location = new System.Drawing.Point(342, 40);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.Size = new System.Drawing.Size(263, 22);
             this.searchTextBox.TabIndex = 7;
             this.searchTextBox.TextChanged += new System.EventHandler(this.SearchTextBox_TextChanged);
             // 
-            // releaseYearChart
+            // registeredUsersTabPage
             // 
-            chartArea2.AxisX.IsLabelAutoFit = false;
-            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea2.AxisY.IsLabelAutoFit = false;
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea2.Name = "ChartArea1";
-            this.releaseYearChart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.releaseYearChart.Legends.Add(legend2);
-            this.releaseYearChart.Location = new System.Drawing.Point(4, 3);
-            this.releaseYearChart.Name = "releaseYearChart";
-            series2.ChartArea = "ChartArea1";
-            series2.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            series2.IsVisibleInLegend = false;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.releaseYearChart.Series.Add(series2);
-            this.releaseYearChart.Size = new System.Drawing.Size(1309, 590);
-            this.releaseYearChart.TabIndex = 0;
-            this.releaseYearChart.Text = "chart1";
+            this.registeredUsersTabPage.Controls.Add(this.usersDataGridView);
+            this.registeredUsersTabPage.Location = new System.Drawing.Point(4, 25);
+            this.registeredUsersTabPage.Name = "registeredUsersTabPage";
+            this.registeredUsersTabPage.Size = new System.Drawing.Size(1316, 596);
+            this.registeredUsersTabPage.TabIndex = 4;
+            this.registeredUsersTabPage.Text = "Users";
+            this.registeredUsersTabPage.UseVisualStyleBackColor = true;
             // 
-            // budgetChart
+            // usersDataGridView
             // 
-            chartArea3.AxisX.IsLabelAutoFit = false;
-            chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea3.AxisY.IsLabelAutoFit = false;
-            chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            chartArea3.Name = "ChartArea1";
-            this.budgetChart.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.budgetChart.Legends.Add(legend3);
-            this.budgetChart.Location = new System.Drawing.Point(4, 3);
-            this.budgetChart.Name = "budgetChart";
-            series3.ChartArea = "ChartArea1";
-            series3.IsVisibleInLegend = false;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.budgetChart.Series.Add(series3);
-            this.budgetChart.Size = new System.Drawing.Size(1309, 590);
-            this.budgetChart.TabIndex = 0;
-            this.budgetChart.Text = "chart1";
+            this.usersDataGridView.AllowUserToAddRows = false;
+            this.usersDataGridView.AllowUserToResizeColumns = false;
+            this.usersDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.usersDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.usersDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.usersDataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.usersDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            this.usersDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.usersDataGridView.DefaultCellStyle = dataGridViewCellStyle12;
+            this.usersDataGridView.Location = new System.Drawing.Point(3, 3);
+            this.usersDataGridView.Name = "usersDataGridView";
+            this.usersDataGridView.RowHeadersWidth = 51;
+            this.usersDataGridView.RowTemplate.Height = 24;
+            this.usersDataGridView.Size = new System.Drawing.Size(1310, 590);
+            this.usersDataGridView.TabIndex = 0;
             // 
             // MainMenuForm
             // 
@@ -455,9 +528,11 @@ namespace FilmsToWatch
             this.genreGraphTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.filmGenresChart)).EndInit();
             this.releaseYearGraphTabPage.ResumeLayout(false);
-            this.filmBudgetGraphTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.releaseYearChart)).EndInit();
+            this.filmBudgetGraphTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.budgetChart)).EndInit();
+            this.registeredUsersTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.usersDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -473,7 +548,7 @@ namespace FilmsToWatch
         private System.Windows.Forms.MenuStrip mainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem accountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem registerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem signInToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logInToolStripMenuItem;
         private System.Windows.Forms.DataGridView filmsDataGridView;
         private System.Windows.Forms.TabControl mainMenuTabControl;
         private System.Windows.Forms.TabPage filmsListTabPage;
@@ -481,7 +556,6 @@ namespace FilmsToWatch
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNewFilmToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem1;
@@ -496,6 +570,9 @@ namespace FilmsToWatch
         private System.Windows.Forms.TabPage filmBudgetGraphTabPage;
         private System.Windows.Forms.DataVisualization.Charting.Chart releaseYearChart;
         private System.Windows.Forms.DataVisualization.Charting.Chart budgetChart;
+        private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
+        private System.Windows.Forms.TabPage registeredUsersTabPage;
+        private System.Windows.Forms.DataGridView usersDataGridView;
     }
 }
 

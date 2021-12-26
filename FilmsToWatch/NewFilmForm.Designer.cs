@@ -289,7 +289,7 @@ namespace FilmsToWatch
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MinimumSize = new System.Drawing.Size(528, 546);
             this.Name = "NewFilmForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New film";
             ((System.ComponentModel.ISupportInitialize)(this.releaseYearNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.runningTimeNumericUpDown)).EndInit();
