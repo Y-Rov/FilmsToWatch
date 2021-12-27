@@ -19,7 +19,6 @@ namespace FilmsToWatch
 
         private void CheckEnteredText(object sender, KeyPressEventArgs e)
         {
-
             if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) &&
                 e.KeyChar != '-' && e.KeyChar != '\'' && e.KeyChar != ' ')
             {
@@ -49,7 +48,7 @@ namespace FilmsToWatch
                 return;
             }
 
-            if (MainMenuForm.FilmExists(MainMenuForm.NewFilms, film => film.Title == titleTextBox.Text))
+            if (MainMenuForm.FilmsDataTable.Rows.Cast<DataRow>().ToList().Exists(row => row.ItemArray[1].ToString() == titleTextBox.Text))
             {
                 MessageBox.Show($@"Film ""{titleTextBox.Text}"" already exists!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -69,6 +68,8 @@ namespace FilmsToWatch
                 Budget = budgetNumericUpDown.Value
             };
             MainMenuForm.NewFilms.AddLast(newFilm);
+            MainMenuForm.FilmsDataTable.Rows.Add(newFilm.Id, newFilm.Title, newFilm.Director, newFilm.Genre, newFilm.Actors,
+                newFilm.ProductionCompany, newFilm.Language, newFilm.ReleaseYear, newFilm.RunningTimeInMinutes, newFilm.Budget);
             MessageBox.Show($@"Film ""{newFilm.Title}"" was added successfully!", @"Success", MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
         }

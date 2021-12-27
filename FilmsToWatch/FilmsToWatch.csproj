@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizedUser.cs" />
     <Compile Include="Film.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>

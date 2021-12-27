@@ -23,18 +23,21 @@ namespace FilmsToWatch
 
         public static bool IsDataSaved = true;
 
-        public static bool IsUserAuthorized = false;
+        public static AuthorizedUser AuthorizedUser;
 
-        private readonly DataTable _filmsDataTable = new DataTable("Films");
+        public static readonly DataTable FilmsDataTable = new DataTable("Films");
+
+        private static int _oldQuantityOfFilms;
 
         private readonly DataTable _usersDataTable = new DataTable("Users");
 
         private readonly LinkedList<TabPage> _tabPages = new LinkedList<TabPage>();
 
-        private static readonly Type[] ColumnTypes = {typeof(int), typeof(string), typeof(string), typeof(string), typeof(string),
-            typeof(string), typeof(string), typeof(int), typeof(int), typeof(decimal) };
-
-        private LinkedList<string> a = new LinkedList<string>();
+        private static readonly Type[] ColumnTypes =
+        {
+            typeof(int), typeof(string), typeof(string), typeof(string), typeof(string),
+            typeof(string), typeof(string), typeof(int), typeof(int), typeof(decimal)
+        };
 
         private static readonly Stack<KeyValuePair<object, DataGridViewCellValidatingEventArgs>> CellBuffer =
             new Stack<KeyValuePair<object, DataGridViewCellValidatingEventArgs>>(50);
@@ -53,42 +56,55 @@ namespace FilmsToWatch
             CheckIfUserIsAuthorized();
         }
 
-        private void FillTabPagesLinkedList()
+        private void FillFilmsDataGridView()
         {
-            for (int i = 1; i < mainMenuTabControl.TabCount; i++)
+            using (var excelPackage = new ExcelPackage(Path.GetDirectoryName(Application.ExecutablePath) + @"\Films2.xlsx"))
             {
-                _tabPages.AddLast(mainMenuTabControl.TabPages[i]);
+                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[0];
+                FillFilmsDataTableColumns(ref worksheet);
+                FillFilmsDataTableRows(ref worksheet);
             }
         }
 
-        private void CheckIfUserIsAuthorized()
+        private void FillFilmsDataTableColumns(ref ExcelWorksheet sheet)
         {
-            if (!IsUserAuthorized)
+            int columnNumber = 0;
+            foreach (var headerCell in sheet.Cells["A1:J1"])
             {
-                filmsDataGridView.ReadOnly = true;
-                foreach (var tab in _tabPages)
-                {
-                    mainMenuTabControl.TabPages.Remove(tab);
-                }
-               
+                FilmsDataTable.Columns.Add(headerCell.Value.ToString(), ColumnTypes[columnNumber]);
+                columnsComboBox.Items.Add(headerCell.Value);
+                ++columnNumber;
             }
-            else
+
+            columnsComboBox.SelectedIndex = 0;
+        }
+
+        private void FillFilmsDataTableRows(ref ExcelWorksheet sheet)
+        {
+            for (int i = 2; i <= sheet.Dimension.End.Row; i++)
             {
-                filmsDataGridView.ReadOnly = false;
-                foreach (var tab in _tabPages)
-                {
-                    mainMenuTabControl.TabPages.Add(tab);
-                }
+                DataRow newDataRow = FilmsDataTable.NewRow();
+                newDataRow.ItemArray = sheet.Cells[i, 1, i, sheet.Dimension.End.Column].Select(cell => cell.Value).ToArray();
+                FilmsDataTable.Rows.Add(newDataRow);
+                CurrentQuantityOfFilms++;
             }
+
+            filmsDataGridView.DataSource = FilmsDataTable;
+            UpdateGenreGraph();
+            UpdateReleaseYearGraph();
+            UpdateFilmBudgetGraph();
+            filmsDataGridView.Columns[0].ReadOnly = true;
+            filmsDataGridView.Columns[9].DefaultCellStyle.FormatProvider = CultureInfo.GetCultureInfo("en-US");
+            filmsDataGridView.Columns[9].DefaultCellStyle.Format = "C0";
         }
 
         private void UpdateGenreGraph()
         {
             filmGenresChart.Series[0].Points.Clear();
-            var columnGroup = from row in _filmsDataTable.AsEnumerable()
-                              group row by row[3]
+            var columnGroup = from row in FilmsDataTable.AsEnumerable()
+                group row by row[3]
                 into genre
-                              select new { Name = genre.Key, Count = genre.Count() };
+                select new { Name = genre.Key, Count = genre.Count() };
             foreach (var group in columnGroup)
             {
                 filmGenresChart.Series[0].Points.AddXY(group.Name, group.Count);
@@ -103,7 +119,7 @@ namespace FilmsToWatch
             for (int i = 0; i < 6; i++)
             {
                 releaseYearChart.Series[0].Points.AddXY($"{yearBegin}-{yearBegin + 10}",
-                    _filmsDataTable.AsEnumerable().Count(col => col.Field<int>(7) >= yearBegin && col.Field<int>(7) < yearBegin + 10));
+                    FilmsDataTable.AsEnumerable().Count(col => col.Field<int>(7) >= yearBegin && col.Field<int>(7) < yearBegin + 10));
                 yearBegin += 10;
             }
         }
@@ -117,50 +133,8 @@ namespace FilmsToWatch
             {
                 FormattableString money = $"{budgetBegin:C0}-{budgetBegin + 50000000:C0}";
                 budgetChart.Series[0].Points.AddXY(money.ToString(CultureInfo.GetCultureInfo("en-US")),
-                    _filmsDataTable.AsEnumerable().Count(col => col.Field<decimal>(9) > budgetBegin && col.Field<decimal>(9) <= budgetBegin + 50000000));
+                    FilmsDataTable.AsEnumerable().Count(col => col.Field<decimal>(9) > budgetBegin && col.Field<decimal>(9) <= budgetBegin + 50000000));
                 budgetBegin += 50000000;
-            }
-        }
-
-        private void FillFilmsDataTableColumns(ExcelWorksheet sheet)
-        {
-            int columnNumber = 0;
-            foreach (var headerCell in sheet.Cells["A1:J1"])
-            {
-                _filmsDataTable.Columns.Add(headerCell.Value.ToString(), ColumnTypes[columnNumber]);
-                columnsComboBox.Items.Add(headerCell.Value);
-                ++columnNumber;
-            }
-
-            columnsComboBox.SelectedIndex = 0;
-        }
-
-        private void FillFilmsDataTableRows(ref ExcelWorksheet sheet)
-        {
-            for (int i = 2; i <= sheet.Dimension.End.Row; i++)
-            {
-                DataRow newDataRow = _filmsDataTable.NewRow();
-                newDataRow.ItemArray = sheet.Cells[i, 1, i, sheet.Dimension.End.Column].Select(cell => cell.Value).ToArray();
-                _filmsDataTable.Rows.Add(newDataRow);
-                CurrentQuantityOfFilms++;
-            }
-
-            filmsDataGridView.DataSource = _filmsDataTable;
-            UpdateGenreGraph();
-            UpdateReleaseYearGraph();
-            UpdateFilmBudgetGraph();
-            filmsDataGridView.Columns[0].ReadOnly = true;
-            filmsDataGridView.Columns[9].DefaultCellStyle.FormatProvider = CultureInfo.GetCultureInfo("en-US");
-            filmsDataGridView.Columns[9].DefaultCellStyle.Format = "C0";
-        }
-
-        private void FillFilmsDataGridView()
-        {
-            using (var excelPackage = new ExcelPackage(Path.GetDirectoryName(Application.ExecutablePath) + @"\Films2.xlsx"))
-            {
-                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[0];
-                FillFilmsDataTableColumns(worksheet);
-                FillFilmsDataTableRows(ref worksheet);
             }
         }
 
@@ -171,7 +145,76 @@ namespace FilmsToWatch
             using (var dr = new CsvDataReader(csv))
             {
                 _usersDataTable.Load(dr);
-                usersDataGridView.DataSource = _usersDataTable;
+            }
+
+            _usersDataTable.Columns.Cast<DataColumn>().ToList().ForEach(column => column.ReadOnly = false);
+            usersDataGridView.DataSource = _usersDataTable;
+        }
+
+        private void FillTabPagesLinkedList()
+        {
+            for (int i = 1; i < mainMenuTabControl.TabCount; i++)
+            {
+                _tabPages.AddLast(mainMenuTabControl.TabPages[i]);
+            }
+        }
+
+        private void CheckIfUserIsAuthorized()
+        {
+            using (var reader = new StreamReader(Path.GetDirectoryName(Application.ExecutablePath) + @"\AuthorizedUser.csv"))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                while (csv.Read())
+                {
+                    AuthorizedUser = csv.GetRecord<AuthorizedUser>();
+                    break;
+                }
+            }
+
+            if (AuthorizedUser == null)
+            {
+                LogOutUserAction();
+                return;
+            }
+
+            foreach (var tab in _tabPages)
+            {
+                mainMenuTabControl.TabPages.Remove(tab);
+            }
+
+            LogInUserAction();
+        }
+
+        private void LogOutUserAction()
+        {
+            registerToolStripMenuItem.Visible = true;
+            logInToolStripMenuItem.Visible = true;
+            welcomeToolStripMenuItem.Visible = false;
+            logOutToolStripMenuItem.Visible = false;
+            currentUserLabel.Text = @"Current user is not logged in!";
+            filmsDataGridView.ReadOnly = true;
+            foreach (var tab in _tabPages)
+            {
+                mainMenuTabControl.TabPages.Remove(tab);
+            }
+        }
+
+        private void LogInUserAction()
+        {
+            registerToolStripMenuItem.Visible = false;
+            logInToolStripMenuItem.Visible = false;
+            welcomeToolStripMenuItem.Visible = true;
+            currentUserLabel.Text = @"Current user: " + AuthorizedUser.Name;
+            welcomeToolStripMenuItem.Text = @"Welcome, " + AuthorizedUser.Name + '!';
+            logOutToolStripMenuItem.Visible = true;
+            filmsDataGridView.ReadOnly = false;
+            int tabPagesSize = AuthorizedUser.IsAdmin ? _tabPages.Count : _tabPages.Count - 1;
+            saveAllUsersToolStripMenuItem.Visible = AuthorizedUser.IsAdmin;
+            var tabToAdd = _tabPages.First;
+            for (int i = 0; i < tabPagesSize; i++)
+            {
+                mainMenuTabControl.TabPages.Add(tabToAdd.Value);
+                tabToAdd = tabToAdd.Next;
             }
         }
 
@@ -258,30 +301,49 @@ namespace FilmsToWatch
                 filmsListTabPage.Text += '*';
             }
         }
-
-        private void AddNewRows()
-        {
-            foreach (var film in NewFilms)
-            {
-                _filmsDataTable.Rows.Add(film.Id, film.Title, film.Director, film.Genre, film.Actors,
-                    film.ProductionCompany, film.Language,
-                    film.ReleaseYear, film.RunningTimeInMinutes, film.Budget);
-                filmsDataGridView.Rows[CurrentQuantityOfFilms - NewFilms.Count].DefaultCellStyle = filmsDataGridView.Rows[0].DefaultCellStyle;
-            }
-
-            if (IsDataSaved)
-            {
-                IsDataSaved = false;
-                filmsListTabPage.Text += '*';
-            }
-        }
-
+        
         private void AddNewFilmToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _oldQuantityOfFilms = FilmsDataTable.Rows.Count;
             Form addFilmForm = new NewFilmForm();
             addFilmForm.ShowDialog();
             addFilmForm.Dispose();
-            AddNewRows();
+            AddNewRows(_oldQuantityOfFilms);
+        }
+
+        private void AddNewRows(int oldRowCount)
+        {
+            for (int i = oldRowCount; i < FilmsDataTable.Rows.Count; i++)
+            {
+                filmsDataGridView.Rows[oldRowCount].DefaultCellStyle = filmsDataGridView.Rows[0].DefaultCellStyle;
+            }
+
+            if (!IsDataSaved || oldRowCount == FilmsDataTable.Rows.Count) return;
+            IsDataSaved = false;
+            filmsListTabPage.Text += '*';
+        }
+
+        private void SaveDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (IsDataSaved) return;
+
+            using (var package = new ExcelPackage(Path.GetDirectoryName(Application.ExecutablePath) + @"\Films2.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                DeleteSheetRows(ref worksheet);
+                UpdateSheetCells(ref worksheet);
+                if (worksheet.Dimension.End.Row - 1 < FilmsDataTable.Rows.Count)
+                {
+                    int oldRowQuantity = worksheet.Dimension.End.Row - 1;
+                    worksheet.Cells[$"A{oldRowQuantity + 1}:A{FilmsDataTable.Rows.Count}"].CopyStyles(worksheet.Cells[$"A{oldRowQuantity + 2}:A{FilmsDataTable.Rows.Count + 1}"]);
+                    worksheet.Cells[$"A{oldRowQuantity + 2}:A{FilmsDataTable.Rows.Count + 1}"].Formula = "ROW()-1";
+                    worksheet.Cells[$"B{oldRowQuantity + 1}:{worksheet.Dimension.End.Address}"].CopyStyles(
+                        worksheet.Cells[$"B{oldRowQuantity + 2}"].LoadFromCollection(NewFilms));
+                }
+                package.Save();
+            }
+            filmsListTabPage.Text = _tabWhenFilmsAreSaved;
+            IsDataSaved = true;
         }
 
         private void DeleteSheetRows(ref ExcelWorksheet sheet)
@@ -302,30 +364,6 @@ namespace FilmsToWatch
             }
         }
 
-        private void SaveDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (IsDataSaved) return;
-
-            using (var package = new ExcelPackage(Path.GetDirectoryName(Application.ExecutablePath) + @"\Films2.xlsx"))
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-                DeleteSheetRows(ref worksheet);
-                UpdateSheetCells(ref worksheet);
-                if (worksheet.Dimension.End.Row - 1 < filmsDataGridView.Rows.Count)
-                {
-                    int oldRowQuantity = worksheet.Dimension.End.Row - 1;
-                    worksheet.Cells[$"A{oldRowQuantity + 1}:A{filmsDataGridView.Rows.Count}"].CopyStyles(worksheet.Cells[$"A{oldRowQuantity + 2}:A{filmsDataGridView.Rows.Count + 1}"]);
-                    worksheet.Cells[$"A{oldRowQuantity + 2}:A{filmsDataGridView.Rows.Count + 1}"].Formula = "ROW()-1";
-                    worksheet.Cells[$"B{oldRowQuantity + 1}:{worksheet.Dimension.End.Address}"].CopyStyles(
-                        worksheet.Cells[$"B{oldRowQuantity + 2}"].LoadFromCollection(NewFilms));
-                    NewFilms.Clear();
-                }
-                package.Save();
-            }
-            filmsListTabPage.Text = _tabWhenFilmsAreSaved;
-            IsDataSaved = true;
-        }
-
         private void FilmsDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             if (e.ColumnIndex == filmsDataGridView.ColumnCount - 1)
@@ -342,6 +380,36 @@ namespace FilmsToWatch
                 filmsDataGridView.Columns[e.ColumnIndex].DefaultCellStyle.FormatProvider =
                     CultureInfo.GetCultureInfo("en-US");
                 filmsDataGridView.Columns[e.ColumnIndex].DefaultCellStyle.Format = "C0";
+            }
+        }
+
+        private void FilmsDataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            if (MessageBox.Show(@"Are you sure you want to delete selected rows? You can't undo this operation!",
+                    @"Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                return;
+            }
+            int oldId = Convert.ToInt32(e.Row.Cells[0].Value);
+            
+            if (FilmExists(NewFilms, film => film.Id == oldId))
+            {
+                RemoveFirstFilm(NewFilms, film => film.Id == oldId);
+            }
+
+            for (int i = oldId; i < FilmsDataTable.Rows.Count; i++)
+            {
+                FilmsDataTable.Rows[i].SetField(0, oldId++);
+            }
+
+            FilmsDataTable.Rows.RemoveAt(oldId - 1);
+            DeletedRowsIndexes.Push(e.Row.Index);
+            CurrentQuantityOfFilms--;
+            
+            if (IsDataSaved)
+            {
+                IsDataSaved = false;
+                filmsListTabPage.Text += '*';
             }
         }
 
@@ -374,41 +442,15 @@ namespace FilmsToWatch
             }
         }
 
-        private void FilmsDataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
-        {
-            if (MessageBox.Show(@"Are you sure you want to delete selected rows? You can't undo this operation!",
-                    @"Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-            {
-                return;
-            }
-            int oldId = Convert.ToInt32(e.Row.Cells[0].Value);
-            if (FilmExists(NewFilms, film => film.Id == oldId))
-            {
-                RemoveFirstFilm(NewFilms, film => film.Id == oldId);
-            }
-
-            for (int i = e.Row.Index + 1; i < _filmsDataTable.Rows.Count; i++)
-            {
-                _filmsDataTable.Rows[i].SetField(0, oldId++);
-            }
-            DeletedRowsIndexes.Push(e.Row.Index);
-            CurrentQuantityOfFilms--;
-            if (IsDataSaved)
-            {
-                IsDataSaved = false;
-                filmsListTabPage.Text += '*';
-            }
-        }
-
         private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(searchTextBox.Text))
             {
-                _filmsDataTable.DefaultView.RowFilter = string.Empty;
+                FilmsDataTable.DefaultView.RowFilter = string.Empty;
                 return;
             }
 
-            _filmsDataTable.DefaultView.RowFilter = $"CONVERT({"[" + columnsComboBox.Text + "]"}, System.String) like '{searchTextBox.Text.Trim()}%'";
+            FilmsDataTable.DefaultView.RowFilter = $"CONVERT({"[" + columnsComboBox.Text + "]"}, System.String) like '{searchTextBox.Text.Trim()}%'";
         }
 
         private void MainMenuTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -434,18 +476,50 @@ namespace FilmsToWatch
         {
             RegisterForm registerForm = new RegisterForm();
             registerForm.ShowDialog();
+            registerForm.Dispose();
         }
 
         private void LogInToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoginForm loginForm = new LoginForm();
             loginForm.ShowDialog();
+            loginForm.Dispose();
+            LogInUserAction();
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            filmsDataGridView.ReadOnly = false;
-            mainMenuTabControl.TabPages.AddRange(_tabPages.ToArray());
+            
+        }
+
+        private void FilmsDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (AuthorizedUser == null)
+            {
+                MessageBox.Show(
+                    @"In order to edit cells or view detailed information, please register or log in to your account!",
+                    @"Authorize", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void LogOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(
+                    @"Are you sure you want to log out from FilmsToWatch?",
+                    @"Log out", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                LogOutUserAction();
+                using (var writer = new StreamWriter(Path.GetDirectoryName(Application.ExecutablePath) + @"\AuthorizedUser.csv"))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    
+                }
+            }
+        }
+
+        private void UsersDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            
         }
     }
 }

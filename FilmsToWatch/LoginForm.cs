@@ -29,19 +29,44 @@ namespace FilmsToWatch
                 MessageBox.Show(@"All fields must be non-empty or non-only-whitespace!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
-
+            var readConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture) { MissingFieldFound = null };
+            bool admin = false;
+            bool doesUserExist = false;
+            User user = null;
             using (var reader = new StreamReader(Path.GetDirectoryName(Application.ExecutablePath) + @"\Users.csv"))
-            using (var csv = new CsvReader(reader, config))
+            using (var csv = new CsvReader(reader, readConfiguration))
             {
                 while (csv.Read())
                 {
-                    var user = csv.GetRecord<User>();
-                    if (!user.Name.Equals(usernameTextBox.Text)) continue;
+                    user = csv.GetRecord<User>();
+                    if (!user.Name.Equals(usernameTextBox.Text) || !user.Password.Equals(passwordTextBox.Text)) continue;
+                    doesUserExist = true;
+                    if (!user.Name.Equals("==Creator==")) break;
+                    admin = true;
+                    break;
+                }
+
+                if (!doesUserExist)
+                {
                     errorLabel.Visible = true;
                     return;
                 }
             }
+
+            AuthorizedUser authorizedUser = new AuthorizedUser { Name = user.Name, Password = user.Password, IsAdmin = admin };
+            if (rememberUserCheckBox.Checked)
+            {
+                using (var writer = new StreamWriter(Path.GetDirectoryName(Application.ExecutablePath) + @"\AuthorizedUser.csv"))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.WriteHeader<AuthorizedUser>();
+                    csv.NextRecord();
+                    csv.WriteRecord(authorizedUser);
+                    csv.NextRecord();
+                }
+            }
+            MainMenuForm.AuthorizedUser = authorizedUser;
+            Close();
         }
     }
 }

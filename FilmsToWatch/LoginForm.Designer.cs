@@ -36,11 +36,12 @@ namespace FilmsToWatch
             this.passwordLabel = new System.Windows.Forms.Label();
             this.usernameLabel = new System.Windows.Forms.Label();
             this.errorLabel = new System.Windows.Forms.Label();
+            this.rememberUserCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(154, 209);
+            this.loginButton.Location = new System.Drawing.Point(155, 214);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(96, 34);
             this.loginButton.TabIndex = 11;
@@ -50,24 +51,26 @@ namespace FilmsToWatch
             // 
             // passwordTextBox
             // 
-            this.passwordTextBox.Location = new System.Drawing.Point(144, 143);
+            this.passwordTextBox.Location = new System.Drawing.Point(144, 130);
             this.passwordTextBox.Name = "passwordTextBox";
-            this.passwordTextBox.Size = new System.Drawing.Size(192, 22);
+            this.passwordTextBox.Size = new System.Drawing.Size(210, 22);
             this.passwordTextBox.TabIndex = 10;
+            this.passwordTextBox.Text = "CreativePasswordForAdmin2021";
             this.passwordTextBox.UseSystemPasswordChar = true;
             // 
             // usernameTextBox
             // 
-            this.usernameTextBox.Location = new System.Drawing.Point(144, 99);
+            this.usernameTextBox.Location = new System.Drawing.Point(144, 86);
             this.usernameTextBox.Name = "usernameTextBox";
-            this.usernameTextBox.Size = new System.Drawing.Size(192, 22);
+            this.usernameTextBox.Size = new System.Drawing.Size(210, 22);
             this.usernameTextBox.TabIndex = 9;
+            this.usernameTextBox.Text = "==Creator==";
             // 
             // titleLabel
             // 
             this.titleLabel.AutoSize = true;
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleLabel.Location = new System.Drawing.Point(58, 35);
+            this.titleLabel.Location = new System.Drawing.Point(58, 28);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(312, 32);
             this.titleLabel.TabIndex = 8;
@@ -76,7 +79,7 @@ namespace FilmsToWatch
             // passwordLabel
             // 
             this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Location = new System.Drawing.Point(65, 146);
+            this.passwordLabel.Location = new System.Drawing.Point(65, 133);
             this.passwordLabel.Name = "passwordLabel";
             this.passwordLabel.Size = new System.Drawing.Size(73, 17);
             this.passwordLabel.TabIndex = 7;
@@ -85,7 +88,7 @@ namespace FilmsToWatch
             // usernameLabel
             // 
             this.usernameLabel.AutoSize = true;
-            this.usernameLabel.Location = new System.Drawing.Point(61, 99);
+            this.usernameLabel.Location = new System.Drawing.Point(61, 86);
             this.usernameLabel.Name = "usernameLabel";
             this.usernameLabel.Size = new System.Drawing.Size(77, 17);
             this.usernameLabel.TabIndex = 6;
@@ -95,18 +98,29 @@ namespace FilmsToWatch
             // 
             this.errorLabel.AutoSize = true;
             this.errorLabel.ForeColor = System.Drawing.Color.Red;
-            this.errorLabel.Location = new System.Drawing.Point(141, 173);
+            this.errorLabel.Location = new System.Drawing.Point(141, 158);
             this.errorLabel.Name = "errorLabel";
-            this.errorLabel.Size = new System.Drawing.Size(256, 17);
+            this.errorLabel.Size = new System.Drawing.Size(254, 17);
             this.errorLabel.TabIndex = 12;
-            this.errorLabel.Text = "This username or password is incorrect";
+            this.errorLabel.Text = "The username or password is incorrect";
             this.errorLabel.Visible = false;
+            // 
+            // rememberUserCheckBox
+            // 
+            this.rememberUserCheckBox.AutoSize = true;
+            this.rememberUserCheckBox.Location = new System.Drawing.Point(144, 183);
+            this.rememberUserCheckBox.Name = "rememberUserCheckBox";
+            this.rememberUserCheckBox.Size = new System.Drawing.Size(122, 21);
+            this.rememberUserCheckBox.TabIndex = 13;
+            this.rememberUserCheckBox.Text = "Remember me";
+            this.rememberUserCheckBox.UseVisualStyleBackColor = true;
             // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(417, 267);
+            this.Controls.Add(this.rememberUserCheckBox);
             this.Controls.Add(this.errorLabel);
             this.Controls.Add(this.loginButton);
             this.Controls.Add(this.passwordTextBox);
@@ -132,5 +146,6 @@ namespace FilmsToWatch
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.Label usernameLabel;
         private System.Windows.Forms.Label errorLabel;
+        private System.Windows.Forms.CheckBox rememberUserCheckBox;
     }
 }
