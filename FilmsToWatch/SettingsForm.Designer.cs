@@ -36,11 +36,16 @@ namespace FilmsToWatch
             this.colorChoosingButton = new System.Windows.Forms.Button();
             this.cityLabel = new System.Windows.Forms.Label();
             this.cityTextBox = new System.Windows.Forms.TextBox();
+            this.applyButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // windowSizeComboBox
             // 
             this.windowSizeComboBox.FormattingEnabled = true;
+            this.windowSizeComboBox.Items.AddRange(new object[] {
+            "1024x768",
+            "1366x768",
+            "1920x1080"});
             this.windowSizeComboBox.Location = new System.Drawing.Point(170, 25);
             this.windowSizeComboBox.Name = "windowSizeComboBox";
             this.windowSizeComboBox.Size = new System.Drawing.Size(121, 24);
@@ -72,6 +77,7 @@ namespace FilmsToWatch
             this.colorChoosingButton.TabIndex = 3;
             this.colorChoosingButton.Text = "Choose";
             this.colorChoosingButton.UseVisualStyleBackColor = true;
+            this.colorChoosingButton.Click += new System.EventHandler(this.ColorChoosingButton_Click);
             // 
             // cityLabel
             // 
@@ -89,19 +95,32 @@ namespace FilmsToWatch
             this.cityTextBox.Size = new System.Drawing.Size(121, 22);
             this.cityTextBox.TabIndex = 5;
             // 
+            // applyButton
+            // 
+            this.applyButton.Location = new System.Drawing.Point(120, 167);
+            this.applyButton.Name = "applyButton";
+            this.applyButton.Size = new System.Drawing.Size(75, 35);
+            this.applyButton.TabIndex = 7;
+            this.applyButton.Text = "Apply";
+            this.applyButton.UseVisualStyleBackColor = true;
+            this.applyButton.Click += new System.EventHandler(this.ApplyButton_Click);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 177);
+            this.ClientSize = new System.Drawing.Size(320, 214);
+            this.Controls.Add(this.applyButton);
             this.Controls.Add(this.cityTextBox);
             this.Controls.Add(this.cityLabel);
             this.Controls.Add(this.colorChoosingButton);
             this.Controls.Add(this.backgroundColorLabel);
             this.Controls.Add(this.sizeLabel);
             this.Controls.Add(this.windowSizeComboBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings (Main window)";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -117,5 +136,6 @@ namespace FilmsToWatch
         private System.Windows.Forms.Button colorChoosingButton;
         private System.Windows.Forms.Label cityLabel;
         private System.Windows.Forms.TextBox cityTextBox;
+        private System.Windows.Forms.Button applyButton;
     }
 }

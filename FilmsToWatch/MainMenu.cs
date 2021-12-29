@@ -6,10 +6,16 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using CsvHelper;
+using FilmsToWatch.Weather;
+using Newtonsoft.Json;
 using OfficeOpenXml;
+using Timer = System.Timers.Timer;
 
 namespace FilmsToWatch
 {
@@ -33,6 +39,10 @@ namespace FilmsToWatch
 
         private readonly LinkedList<TabPage> _tabPages = new LinkedList<TabPage>();
 
+        private readonly Timer _weatherTimer = new Timer(5000);
+
+        private int _previousHour = DateTime.Now.Hour;
+
         private static readonly Type[] ColumnTypes =
         {
             typeof(int), typeof(string), typeof(string), typeof(string), typeof(string),
@@ -54,6 +64,44 @@ namespace FilmsToWatch
             FillUsersDataGridView();
             FillTabPagesLinkedList();
             CheckIfUserIsAuthorized();
+            UpdateWeatherAsync();
+            _weatherTimer.Elapsed += OnTimedEvent;
+            _weatherTimer.Start();
+        }
+
+        private async Task<string> SetGetAsync(string uri)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+
+            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                return await reader.ReadToEndAsync();
+            }
+        }
+
+        private async void UpdateWeatherAsync()
+        {
+            string uri = "https://api.openweathermap.org/data/2.5/weather?q=Ivano-Frankivsk&units=metric&appid=a97a0c62ad17f8d59e77931f5af8aeba";
+            string responseJson = await SetGetAsync(uri);
+            
+            if (responseJson == null) return;
+            Root weatherRoot = JsonConvert.DeserializeObject<Root>(responseJson);
+            if (weatherRoot == null) return;
+            weatherPictureBox.LoadAsync("http://openweathermap.org/img/wn/" + weatherRoot.weather[0].icon + "@2x.png");
+            weatherDescriptionLabel.Text = string.Format(@"{0}, wind speed: {1} meter/sec, temperature: {2}°C, humidity: {3}%",
+                weatherRoot.weather[0].main, weatherRoot.wind.speed, weatherRoot.main.temp, weatherRoot.main.humidity);
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            if (_previousHour < DateTime.Now.Hour || (_previousHour == 23 && DateTime.Now.Hour == 0))
+            {
+                _previousHour = DateTime.Now.Hour;
+                UpdateWeatherAsync();
+            }
         }
 
         private void FillFilmsDataGridView()
@@ -351,7 +399,7 @@ namespace FilmsToWatch
             while (DeletedRowsIndexes.Count != 0)
             {
                 var deletedRowIndex = DeletedRowsIndexes.Pop();
-                sheet.DeleteRow(deletedRowIndex + 2);
+                sheet.DeleteRow(deletedRowIndex + 1);
             }
         }
 
@@ -385,11 +433,6 @@ namespace FilmsToWatch
 
         private void FilmsDataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            if (MessageBox.Show(@"Are you sure you want to delete selected rows? You can't undo this operation!",
-                    @"Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-            {
-                return;
-            }
             int oldId = Convert.ToInt32(e.Row.Cells[0].Value);
             
             if (FilmExists(NewFilms, film => film.Id == oldId))
@@ -399,11 +442,10 @@ namespace FilmsToWatch
 
             for (int i = oldId; i < FilmsDataTable.Rows.Count; i++)
             {
-                FilmsDataTable.Rows[i].SetField(0, oldId++);
+                FilmsDataTable.Rows[i].SetField(0, i);
             }
 
-            FilmsDataTable.Rows.RemoveAt(oldId - 1);
-            DeletedRowsIndexes.Push(e.Row.Index);
+            DeletedRowsIndexes.Push(oldId);
             CurrentQuantityOfFilms--;
             
             if (IsDataSaved)
@@ -520,6 +562,13 @@ namespace FilmsToWatch
         private void UsersDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             
+        }
+
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsForm settingsForm = new SettingsForm();
+            settingsForm.ShowDialog(this);
+            settingsForm.Dispose();
         }
     }
 }
