@@ -11,9 +11,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using CsvHelper;
+using FilmsToWatch.Properties;
 using FilmsToWatch.Weather;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using Timer = System.Timers.Timer;
 
@@ -64,27 +67,50 @@ namespace FilmsToWatch
             FillUsersDataGridView();
             FillTabPagesLinkedList();
             CheckIfUserIsAuthorized();
+            LoadSavedSettings();
             UpdateWeatherAsync();
             _weatherTimer.Elapsed += OnTimedEvent;
             _weatherTimer.Start();
         }
 
+        private void LoadSavedSettings()
+        {
+            XmlSerializer formatter = new XmlSerializer(typeof(SerializedSettings));
+            
+            using (FileStream fs = new FileStream(Path.GetDirectoryName(Application.ExecutablePath) + @"\Settings.xml", FileMode.OpenOrCreate))
+            {
+                SerializedSettings settings = (SerializedSettings)formatter.Deserialize(fs);
+                Size = settings.WindowSize;
+
+                BackColor = Color.FromArgb(settings.AlphaChannel, settings.RedChannel, settings.GreenChannel,
+                    settings.BlueChannel);
+                SettingsForm.WeatherCityName = settings.CityName;
+            }
+        }
+
         private async Task<string> SetGetAsync(string uri)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
+            try
             {
-                return await reader.ReadToEndAsync();
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+                request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+                using (Stream stream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
         private async void UpdateWeatherAsync()
         {
-            string uri = "https://api.openweathermap.org/data/2.5/weather?q=Ivano-Frankivsk&units=metric&appid=a97a0c62ad17f8d59e77931f5af8aeba";
+            string uri = "https://api.openweathermap.org/data/2.5/weather?q=" + SettingsForm.WeatherCityName + @"&units=metric&appid=a97a0c62ad17f8d59e77931f5af8aeba";
             string responseJson = await SetGetAsync(uri);
             
             if (responseJson == null) return;
@@ -291,7 +317,7 @@ namespace FilmsToWatch
         private void MainMenuForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Hide();
-            trayIcon.ShowBalloonTip(4000);
+            trayIcon.ShowBalloonTip(5000);
             e.Cancel = true;
         }
 
@@ -567,8 +593,13 @@ namespace FilmsToWatch
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsForm settingsForm = new SettingsForm();
+            string previousCityName = SettingsForm.WeatherCityName;
             settingsForm.ShowDialog(this);
             settingsForm.Dispose();
+            if (!previousCityName.Equals(SettingsForm.WeatherCityName))
+            {
+                UpdateWeatherAsync();
+            }
         }
     }
 }
