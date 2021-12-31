@@ -41,7 +41,7 @@ namespace FilmsToWatch
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(155, 214);
+            this.loginButton.Location = new System.Drawing.Point(155, 221);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(96, 34);
             this.loginButton.TabIndex = 11;

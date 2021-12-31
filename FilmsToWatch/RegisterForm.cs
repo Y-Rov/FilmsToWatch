@@ -50,10 +50,11 @@ namespace FilmsToWatch
                 csv.WriteRecord(registeredUser);
                 csv.NextRecord();
             }
-            Close();
+
+            DialogResult = DialogResult.OK;
             MessageBox.Show(@"You have been registered successfully! Now, please log in to your account!", @"Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            LoginForm loginForm = new LoginForm();
-            loginForm.ShowDialog();
+            Dispose(true);
+            Close();
         }
     }
 }

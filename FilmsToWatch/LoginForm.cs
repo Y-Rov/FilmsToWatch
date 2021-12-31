@@ -21,6 +21,9 @@ namespace FilmsToWatch
             InitializeComponent();
         }
 
+        private void CheckIfUserExists()
+        {}
+
         private void LoginButton_Click(object sender, EventArgs e)
         {
             errorLabel.Visible = false;
@@ -66,6 +69,8 @@ namespace FilmsToWatch
                 }
             }
             MainMenuForm.AuthorizedUser = authorizedUser;
+            DialogResult = DialogResult.OK;
+            Dispose(true);
             Close();
         }
     }

@@ -38,6 +38,7 @@ namespace FilmsToWatch
             this.applyButton = new System.Windows.Forms.Button();
             this.backgroundPictureBox = new System.Windows.Forms.PictureBox();
             this.weatherCityComboBox = new System.Windows.Forms.ComboBox();
+            this.unknownCityLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,15 +49,16 @@ namespace FilmsToWatch
             "1024x768",
             "1366x768",
             "1920x1080"});
-            this.windowSizeComboBox.Location = new System.Drawing.Point(170, 25);
+            this.windowSizeComboBox.Location = new System.Drawing.Point(149, 23);
             this.windowSizeComboBox.Name = "windowSizeComboBox";
-            this.windowSizeComboBox.Size = new System.Drawing.Size(177, 24);
+            this.windowSizeComboBox.Size = new System.Drawing.Size(227, 24);
             this.windowSizeComboBox.TabIndex = 0;
+            this.windowSizeComboBox.SelectedIndexChanged += new System.EventHandler(this.WindowSizeComboBox_SelectedIndexChanged);
             // 
             // sizeLabel
             // 
             this.sizeLabel.AutoSize = true;
-            this.sizeLabel.Location = new System.Drawing.Point(33, 28);
+            this.sizeLabel.Location = new System.Drawing.Point(27, 26);
             this.sizeLabel.Name = "sizeLabel";
             this.sizeLabel.Size = new System.Drawing.Size(35, 17);
             this.sizeLabel.TabIndex = 1;
@@ -65,7 +67,7 @@ namespace FilmsToWatch
             // backgroundColorLabel
             // 
             this.backgroundColorLabel.AutoSize = true;
-            this.backgroundColorLabel.Location = new System.Drawing.Point(33, 80);
+            this.backgroundColorLabel.Location = new System.Drawing.Point(27, 78);
             this.backgroundColorLabel.Name = "backgroundColorLabel";
             this.backgroundColorLabel.Size = new System.Drawing.Size(119, 17);
             this.backgroundColorLabel.TabIndex = 2;
@@ -73,11 +75,13 @@ namespace FilmsToWatch
             // 
             // backgroundColorDialog
             // 
+            this.backgroundColorDialog.AnyColor = true;
+            this.backgroundColorDialog.Color = System.Drawing.SystemColors.InactiveCaption;
             this.backgroundColorDialog.FullOpen = true;
             // 
             // colorChoosingButton
             // 
-            this.colorChoosingButton.Location = new System.Drawing.Point(246, 71);
+            this.colorChoosingButton.Location = new System.Drawing.Point(261, 69);
             this.colorChoosingButton.Name = "colorChoosingButton";
             this.colorChoosingButton.Size = new System.Drawing.Size(75, 35);
             this.colorChoosingButton.TabIndex = 3;
@@ -88,7 +92,7 @@ namespace FilmsToWatch
             // cityLabel
             // 
             this.cityLabel.AutoSize = true;
-            this.cityLabel.Location = new System.Drawing.Point(33, 132);
+            this.cityLabel.Location = new System.Drawing.Point(27, 130);
             this.cityLabel.Name = "cityLabel";
             this.cityLabel.Size = new System.Drawing.Size(116, 17);
             this.cityLabel.TabIndex = 4;
@@ -96,17 +100,17 @@ namespace FilmsToWatch
             // 
             // applyButton
             // 
-            this.applyButton.Location = new System.Drawing.Point(143, 167);
+            this.applyButton.Location = new System.Drawing.Point(165, 187);
             this.applyButton.Name = "applyButton";
             this.applyButton.Size = new System.Drawing.Size(75, 35);
             this.applyButton.TabIndex = 7;
-            this.applyButton.Text = "Apply";
+            this.applyButton.Text = "Save";
             this.applyButton.UseVisualStyleBackColor = true;
             this.applyButton.Click += new System.EventHandler(this.ApplyButton_Click);
             // 
             // backgroundPictureBox
             // 
-            this.backgroundPictureBox.Location = new System.Drawing.Point(200, 71);
+            this.backgroundPictureBox.Location = new System.Drawing.Point(215, 69);
             this.backgroundPictureBox.Name = "backgroundPictureBox";
             this.backgroundPictureBox.Size = new System.Drawing.Size(35, 35);
             this.backgroundPictureBox.TabIndex = 8;
@@ -121,16 +125,28 @@ namespace FilmsToWatch
             "Kyiv",
             "Dnipro",
             "Kharkiv"});
-            this.weatherCityComboBox.Location = new System.Drawing.Point(170, 129);
+            this.weatherCityComboBox.Location = new System.Drawing.Point(149, 127);
             this.weatherCityComboBox.Name = "weatherCityComboBox";
-            this.weatherCityComboBox.Size = new System.Drawing.Size(177, 24);
+            this.weatherCityComboBox.Size = new System.Drawing.Size(227, 24);
             this.weatherCityComboBox.TabIndex = 9;
+            // 
+            // unknownCityLabel
+            // 
+            this.unknownCityLabel.AutoSize = true;
+            this.unknownCityLabel.ForeColor = System.Drawing.Color.Red;
+            this.unknownCityLabel.Location = new System.Drawing.Point(146, 154);
+            this.unknownCityLabel.Name = "unknownCityLabel";
+            this.unknownCityLabel.Size = new System.Drawing.Size(256, 17);
+            this.unknownCityLabel.TabIndex = 10;
+            this.unknownCityLabel.Text = "This city is unknown for weather server!";
+            this.unknownCityLabel.Visible = false;
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(375, 214);
+            this.ClientSize = new System.Drawing.Size(404, 234);
+            this.Controls.Add(this.unknownCityLabel);
             this.Controls.Add(this.weatherCityComboBox);
             this.Controls.Add(this.backgroundPictureBox);
             this.Controls.Add(this.applyButton);
@@ -162,5 +178,6 @@ namespace FilmsToWatch
         private System.Windows.Forms.Button applyButton;
         private System.Windows.Forms.PictureBox backgroundPictureBox;
         private System.Windows.Forms.ComboBox weatherCityComboBox;
+        private System.Windows.Forms.Label unknownCityLabel;
     }
 }
