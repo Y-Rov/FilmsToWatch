@@ -134,7 +134,7 @@ namespace FilmsToWatch
 
         private void FillFilmsDataGridView()
         {
-            using (var excelPackage = new ExcelPackage(Path.GetDirectoryName(Application.ExecutablePath) + @"\Films2.xlsx"))
+            using (var excelPackage = new ExcelPackage(Path.GetDirectoryName(Application.ExecutablePath) + @"\Films.xlsx"))
             {
                 ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[0];
                 FillFilmsDataTableColumns(ref worksheet);
@@ -160,6 +160,7 @@ namespace FilmsToWatch
             for (int i = 2; i <= sheet.Dimension.End.Row; i++)
             {
                 DataRow newDataRow = FilmsDataTable.NewRow();
+                sheet.Cells[i, 1].Calculate();
                 newDataRow.ItemArray = sheet.Cells[i, 1, i, sheet.Dimension.End.Column].Select(cell => cell.Value).ToArray();
                 FilmsDataTable.Rows.Add(newDataRow);
                 CurrentQuantityOfFilms++;
@@ -365,9 +366,9 @@ namespace FilmsToWatch
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(e.FormattedValue.ToString()))
+            if (string.IsNullOrWhiteSpace(e.FormattedValue.ToString()) || e.FormattedValue.ToString().Trim().Length != e.FormattedValue.ToString().Length)
             {
-                filmsDataGridView.Rows[e.RowIndex].ErrorText = "Cell can not be empty!";
+                filmsDataGridView.Rows[e.RowIndex].ErrorText = "Cell can not be empty, with trailing or leading whitespaces!";
                 e.Cancel = true;
                 return;
             }
@@ -387,7 +388,7 @@ namespace FilmsToWatch
                 SaveDataToolStripMenuItem_Click(sender, e);
                 ChangedCellBuffer.Clear();
             }
-                
+
             ChangedCellBuffer.Push(new KeyValuePair<object, DataGridViewCellValidatingEventArgs>(
                 filmsDataGridView[e.ColumnIndex, e.RowIndex].FormattedValue, e));
 
@@ -439,11 +440,9 @@ namespace FilmsToWatch
 
             if (IsDataSaved) return;
 
-            using (var package = new ExcelPackage(Path.GetDirectoryName(Application.ExecutablePath) + @"\Films2.xlsx"))
+            using (var package = new ExcelPackage(Path.GetDirectoryName(Application.ExecutablePath) + @"\Films.xlsx"))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-                DeleteSheetRows(ref worksheet);
-                UpdateSheetCells(ref worksheet);
                 if (worksheet.Dimension.End.Row - 1 < FilmsDataTable.Rows.Count)
                 {
                     int oldRowQuantity = worksheet.Dimension.End.Row - 1;
@@ -452,6 +451,8 @@ namespace FilmsToWatch
                     worksheet.Cells[$"B{oldRowQuantity + 1}:{worksheet.Dimension.End.Address}"].CopyStyles(
                         worksheet.Cells[$"B{oldRowQuantity + 2}"].LoadFromCollection(NewFilms));
                 }
+                DeleteSheetRows(ref worksheet);
+                UpdateSheetCells(ref worksheet);
                 package.Save();
             }
             filmsListTabPage.Text = _tabWhenFilmsAreSaved;

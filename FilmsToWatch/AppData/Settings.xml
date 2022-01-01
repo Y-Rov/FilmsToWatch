@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<SerializedSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <WindowSize>
+    <Width>1366</Width>
+    <Height>768</Height>
+  </WindowSize>
+  <BackgroundColorArgb>-5518609</BackgroundColorArgb>
+  <CityName>Ivano-Frankivsk</CityName>
+</SerializedSettings>
