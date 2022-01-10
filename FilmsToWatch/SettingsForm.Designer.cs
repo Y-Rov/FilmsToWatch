@@ -49,27 +49,30 @@ namespace FilmsToWatch
             "1024x768",
             "1366x768",
             "1920x1080"});
-            this.windowSizeComboBox.Location = new System.Drawing.Point(149, 23);
+            this.windowSizeComboBox.Location = new System.Drawing.Point(112, 19);
+            this.windowSizeComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.windowSizeComboBox.Name = "windowSizeComboBox";
-            this.windowSizeComboBox.Size = new System.Drawing.Size(227, 24);
+            this.windowSizeComboBox.Size = new System.Drawing.Size(171, 21);
             this.windowSizeComboBox.TabIndex = 0;
             this.windowSizeComboBox.SelectedIndexChanged += new System.EventHandler(this.WindowSizeComboBox_SelectedIndexChanged);
             // 
             // sizeLabel
             // 
             this.sizeLabel.AutoSize = true;
-            this.sizeLabel.Location = new System.Drawing.Point(27, 26);
+            this.sizeLabel.Location = new System.Drawing.Point(20, 21);
+            this.sizeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.sizeLabel.Name = "sizeLabel";
-            this.sizeLabel.Size = new System.Drawing.Size(35, 17);
+            this.sizeLabel.Size = new System.Drawing.Size(27, 13);
             this.sizeLabel.TabIndex = 1;
             this.sizeLabel.Text = "Size";
             // 
             // backgroundColorLabel
             // 
             this.backgroundColorLabel.AutoSize = true;
-            this.backgroundColorLabel.Location = new System.Drawing.Point(27, 78);
+            this.backgroundColorLabel.Location = new System.Drawing.Point(20, 63);
+            this.backgroundColorLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.backgroundColorLabel.Name = "backgroundColorLabel";
-            this.backgroundColorLabel.Size = new System.Drawing.Size(119, 17);
+            this.backgroundColorLabel.Size = new System.Drawing.Size(91, 13);
             this.backgroundColorLabel.TabIndex = 2;
             this.backgroundColorLabel.Text = "Background color";
             // 
@@ -81,9 +84,10 @@ namespace FilmsToWatch
             // 
             // colorChoosingButton
             // 
-            this.colorChoosingButton.Location = new System.Drawing.Point(261, 69);
+            this.colorChoosingButton.Location = new System.Drawing.Point(196, 56);
+            this.colorChoosingButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.colorChoosingButton.Name = "colorChoosingButton";
-            this.colorChoosingButton.Size = new System.Drawing.Size(75, 35);
+            this.colorChoosingButton.Size = new System.Drawing.Size(56, 28);
             this.colorChoosingButton.TabIndex = 3;
             this.colorChoosingButton.Text = "Choose";
             this.colorChoosingButton.UseVisualStyleBackColor = true;
@@ -92,27 +96,30 @@ namespace FilmsToWatch
             // cityLabel
             // 
             this.cityLabel.AutoSize = true;
-            this.cityLabel.Location = new System.Drawing.Point(27, 130);
+            this.cityLabel.Location = new System.Drawing.Point(20, 106);
+            this.cityLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.cityLabel.Name = "cityLabel";
-            this.cityLabel.Size = new System.Drawing.Size(116, 17);
+            this.cityLabel.Size = new System.Drawing.Size(86, 13);
             this.cityLabel.TabIndex = 4;
             this.cityLabel.Text = "City (for weather)";
             // 
             // applyButton
             // 
-            this.applyButton.Location = new System.Drawing.Point(165, 187);
+            this.applyButton.Location = new System.Drawing.Point(124, 152);
+            this.applyButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.applyButton.Name = "applyButton";
-            this.applyButton.Size = new System.Drawing.Size(75, 35);
+            this.applyButton.Size = new System.Drawing.Size(56, 28);
             this.applyButton.TabIndex = 7;
             this.applyButton.Text = "Save";
             this.applyButton.UseVisualStyleBackColor = true;
-            this.applyButton.Click += new System.EventHandler(this.ApplyButton_Click);
+            this.applyButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // backgroundPictureBox
             // 
-            this.backgroundPictureBox.Location = new System.Drawing.Point(215, 69);
+            this.backgroundPictureBox.Location = new System.Drawing.Point(161, 56);
+            this.backgroundPictureBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.backgroundPictureBox.Name = "backgroundPictureBox";
-            this.backgroundPictureBox.Size = new System.Drawing.Size(35, 35);
+            this.backgroundPictureBox.Size = new System.Drawing.Size(26, 28);
             this.backgroundPictureBox.TabIndex = 8;
             this.backgroundPictureBox.TabStop = false;
             // 
@@ -125,27 +132,29 @@ namespace FilmsToWatch
             "Kyiv",
             "Dnipro",
             "Kharkiv"});
-            this.weatherCityComboBox.Location = new System.Drawing.Point(149, 127);
+            this.weatherCityComboBox.Location = new System.Drawing.Point(112, 103);
+            this.weatherCityComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.weatherCityComboBox.Name = "weatherCityComboBox";
-            this.weatherCityComboBox.Size = new System.Drawing.Size(227, 24);
+            this.weatherCityComboBox.Size = new System.Drawing.Size(171, 21);
             this.weatherCityComboBox.TabIndex = 9;
             // 
             // unknownCityLabel
             // 
             this.unknownCityLabel.AutoSize = true;
             this.unknownCityLabel.ForeColor = System.Drawing.Color.Red;
-            this.unknownCityLabel.Location = new System.Drawing.Point(146, 154);
+            this.unknownCityLabel.Location = new System.Drawing.Point(110, 125);
+            this.unknownCityLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.unknownCityLabel.Name = "unknownCityLabel";
-            this.unknownCityLabel.Size = new System.Drawing.Size(256, 17);
+            this.unknownCityLabel.Size = new System.Drawing.Size(194, 13);
             this.unknownCityLabel.TabIndex = 10;
             this.unknownCityLabel.Text = "This city is unknown for weather server!";
             this.unknownCityLabel.Visible = false;
             // 
             // SettingsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 234);
+            this.ClientSize = new System.Drawing.Size(303, 190);
             this.Controls.Add(this.unknownCityLabel);
             this.Controls.Add(this.weatherCityComboBox);
             this.Controls.Add(this.backgroundPictureBox);
@@ -156,6 +165,7 @@ namespace FilmsToWatch
             this.Controls.Add(this.sizeLabel);
             this.Controls.Add(this.windowSizeComboBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

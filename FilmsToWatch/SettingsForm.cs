@@ -10,7 +10,6 @@ namespace FilmsToWatch
 {
     public partial class SettingsForm : Form
     {
-
         public static string WeatherCityName = "Ivano-Frankivsk";
         private bool _firstLaunch = true;
         private SerializedSettings _currentSettings = new SerializedSettings();
@@ -52,7 +51,27 @@ namespace FilmsToWatch
             }
         }
 
-        private void ApplyButton_Click(object sender, EventArgs e)
+        private void SettingsForm_Load(object sender, EventArgs e)
+        {
+            backgroundPictureBox.BackColor = Owner.BackColor;
+        }
+
+        private void WindowSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_firstLaunch)
+            {
+                _firstLaunch = false;
+                return;
+            }
+            Match resolutionMatch = Regex.Match(windowSizeComboBox.Text, @"^(\d+)x(\d+)$");
+            if (!resolutionMatch.Success) return;
+            Owner.Size = new Size(Convert.ToInt32(resolutionMatch.Groups[1].Value),
+                Convert.ToInt32(resolutionMatch.Groups[2].Value));
+            Owner.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - Owner.Width) / 2,
+                (Screen.PrimaryScreen.WorkingArea.Height - Owner.Height) / 2);
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
         {
             unknownCityLabel.Visible = false;
             Match resolutionMatch = Regex.Match(windowSizeComboBox.Text, @"^(\d+)x(\d+)$");
@@ -93,26 +112,6 @@ namespace FilmsToWatch
             DialogResult = DialogResult.OK;
             Dispose(true);
             Close();
-        }
-
-        private void SettingsForm_Load(object sender, EventArgs e)
-        {
-            backgroundPictureBox.BackColor = Owner.BackColor;
-        }
-
-        private void WindowSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_firstLaunch)
-            {
-                _firstLaunch = false;
-                return;
-            }
-            Match resolutionMatch = Regex.Match(windowSizeComboBox.Text, @"^(\d+)x(\d+)$");
-            if (!resolutionMatch.Success) return;
-            Owner.Size = new Size(Convert.ToInt32(resolutionMatch.Groups[1].Value),
-                Convert.ToInt32(resolutionMatch.Groups[2].Value));
-            Owner.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - Owner.Width) / 2,
-                (Screen.PrimaryScreen.WorkingArea.Height - Owner.Height) / 2);
         }
     }
 }
