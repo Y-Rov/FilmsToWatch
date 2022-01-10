@@ -90,6 +90,7 @@ namespace FilmsToWatch
             }
 
             unknownCityLabel.Visible = false;
+            DialogResult = DialogResult.OK;
             Dispose(true);
             Close();
         }

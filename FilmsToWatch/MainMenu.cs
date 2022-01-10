@@ -646,9 +646,23 @@ namespace FilmsToWatch
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsForm settingsForm = new SettingsForm();
-            string previousCityName = SettingsForm.WeatherCityName;
-            settingsForm.ShowDialog(this);
-            if (!previousCityName.Equals(SettingsForm.WeatherCityName))
+            SerializedSettings previousSettings = new SerializedSettings
+            {
+                BackgroundColorArgb = BackColor.ToArgb(),
+                CityName = SettingsForm.WeatherCityName,
+                WindowSize = Size
+            };
+
+            if (settingsForm.ShowDialog(this) == DialogResult.Cancel)
+            {
+                BackColor = Color.FromArgb(previousSettings.BackgroundColorArgb);
+                mainMenuStrip.BackColor = BackColor;
+                Size = previousSettings.WindowSize;
+                Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - Width) / 2,
+                    (Screen.PrimaryScreen.WorkingArea.Height - Height) / 2);
+            }
+
+            if (!previousSettings.CityName.Equals(SettingsForm.WeatherCityName))
             {
                 UpdateWeatherAsync();
             }
@@ -705,7 +719,5 @@ namespace FilmsToWatch
 
             File.WriteAllText(Path.GetDirectoryName(Application.ExecutablePath) + @"\Users.csv", sb.ToString());
         }
-
-     
     }
 }
