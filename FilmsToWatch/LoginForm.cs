@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -21,9 +14,6 @@ namespace FilmsToWatch
             InitializeComponent();
         }
 
-        private void CheckIfUserExists()
-        {}
-
         private void LoginButton_Click(object sender, EventArgs e)
         {
             errorLabel.Visible = false;
@@ -36,6 +26,7 @@ namespace FilmsToWatch
             bool admin = false;
             bool doesUserExist = false;
             User user = null;
+            // Check whether the user entered a correct username and password
             using (var reader = new StreamReader(Path.GetDirectoryName(Application.ExecutablePath) + @"\Users.csv"))
             using (var csv = new CsvReader(reader, readConfiguration))
             {
@@ -44,6 +35,7 @@ namespace FilmsToWatch
                     user = csv.GetRecord<User>();
                     if (!user.Name.Equals(usernameTextBox.Text) || !user.Password.Equals(passwordTextBox.Text)) continue;
                     doesUserExist = true;
+                    // Admin unique name
                     if (!user.Name.Equals("==Creator==")) break;
                     admin = true;
                     break;
@@ -56,6 +48,7 @@ namespace FilmsToWatch
                 }
             }
 
+            // Successful authorization
             AuthorizedUser authorizedUser = new AuthorizedUser { Name = user.Name, Password = user.Password, IsAdmin = admin };
             if (rememberUserCheckBox.Checked)
             {

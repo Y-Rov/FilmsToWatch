@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CsvHelper;
-using CsvHelper.Configuration;
 
 namespace FilmsToWatch
 {
@@ -30,6 +22,7 @@ namespace FilmsToWatch
                 return;
             }
 
+            // Check if user with the entered username already exists
             using (var reader = new StreamReader(Path.GetDirectoryName(Application.ExecutablePath) + @"\Users.csv"))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
@@ -42,6 +35,7 @@ namespace FilmsToWatch
                 }
             }
 
+            // Register new user
             User registeredUser = new User { Name = usernameTextBox.Text, Password = passwordTextBox.Text };
             using (var stream = File.Open(Path.GetDirectoryName(Application.ExecutablePath) + @"\Users.csv", FileMode.Append))
             using (var writer = new StreamWriter(stream))

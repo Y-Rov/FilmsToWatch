@@ -30,6 +30,8 @@ namespace FilmsToWatch
 
         public static bool IsDataSaved = true;
 
+        private bool _isInternetConnection = true;
+
         private bool _showNotification = true;
 
         public static AuthorizedUser AuthorizedUser;
@@ -42,7 +44,7 @@ namespace FilmsToWatch
 
         private readonly LinkedList<TabPage> _tabPages = new LinkedList<TabPage>();
 
-        private readonly Timer _weatherTimer = new Timer(5000);
+        private readonly Timer _weatherTimer = new Timer(15000);
 
         private int _previousHour = DateTime.Now.Hour;
 
@@ -68,6 +70,7 @@ namespace FilmsToWatch
             _tabWhenFilmsAreSaved = filmsListTabPage.Text;
             logOutToolStripMenuItem.Visible = false;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            Size = new Size(Screen.PrimaryScreen.WorkingArea.Width / 2, Screen.PrimaryScreen.WorkingArea.Height / 2);
             FillFilmsDataGridView();
             FillUsersDataGridView();
             FillTabPagesLinkedList();
@@ -102,11 +105,13 @@ namespace FilmsToWatch
                 using (Stream stream = response.GetResponseStream())
                 using (StreamReader reader = new StreamReader(stream))
                 {
+                    _isInternetConnection = true;
                     return await reader.ReadToEndAsync();
                 }
             }
             catch (WebException)
             {
+                _isInternetConnection = false;
                 return null;
             }
         }
@@ -120,12 +125,15 @@ namespace FilmsToWatch
             Root weatherRoot = JsonConvert.DeserializeObject<Root>(responseJson);
             if (weatherRoot == null) return;
             weatherPictureBox.LoadAsync("http://openweathermap.org/img/wn/" + weatherRoot.weather[0].icon + "@2x.png");
-            weatherDescriptionLabel.Text = $@"Weather in {SettingsForm.WeatherCityName}: {weatherRoot.weather[0].main}, wind speed: {weatherRoot.wind.speed} meter/sec, temperature: {weatherRoot.main.temp}°C, humidity: {weatherRoot.main.humidity}%";
+            Invoke(new MethodInvoker(delegate ()
+            {
+                weatherDescriptionLabel.Text = $@"Weather in {SettingsForm.WeatherCityName}: {weatherRoot.weather[0].main}, wind speed: {weatherRoot.wind.speed} meter/sec, temperature: {weatherRoot.main.temp}°C, humidity: {weatherRoot.main.humidity}%";
+            }));   
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            if (_previousHour < DateTime.Now.Hour || (_previousHour == 23 && DateTime.Now.Hour == 0))
+            if (!_isInternetConnection || _previousHour < DateTime.Now.Hour || (_previousHour == 23 && DateTime.Now.Hour == 0))
             {
                 _previousHour = DateTime.Now.Hour;
                 UpdateWeatherAsync();
@@ -134,11 +142,19 @@ namespace FilmsToWatch
 
         private void FillFilmsDataGridView()
         {
+            // Open Films.xlsx and get first worksheet which contains all films
             using (var excelPackage = new ExcelPackage(Path.GetDirectoryName(Application.ExecutablePath) + @"\Films.xlsx"))
             {
                 ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets[0];
                 FillFilmsDataTableColumns(ref worksheet);
                 FillFilmsDataTableRows(ref worksheet);
+                filmsDataGridView.DataSource = FilmsDataTable;
+                UpdateGenreGraph();
+                UpdateReleaseYearGraph();
+                UpdateFilmBudgetGraph();
+                filmsDataGridView.Columns[0].ReadOnly = true;
+                filmsDataGridView.Columns[9].DefaultCellStyle.FormatProvider = CultureInfo.GetCultureInfo("en-US");
+                filmsDataGridView.Columns[9].DefaultCellStyle.Format = "C0";
             }
         }
 
@@ -165,14 +181,6 @@ namespace FilmsToWatch
                 FilmsDataTable.Rows.Add(newDataRow);
                 CurrentQuantityOfFilms++;
             }
-
-            filmsDataGridView.DataSource = FilmsDataTable;
-            UpdateGenreGraph();
-            UpdateReleaseYearGraph();
-            UpdateFilmBudgetGraph();
-            filmsDataGridView.Columns[0].ReadOnly = true;
-            filmsDataGridView.Columns[9].DefaultCellStyle.FormatProvider = CultureInfo.GetCultureInfo("en-US");
-            filmsDataGridView.Columns[9].DefaultCellStyle.Format = "C0";
         }
 
         private void UpdateGenreGraph()
@@ -697,5 +705,7 @@ namespace FilmsToWatch
 
             File.WriteAllText(Path.GetDirectoryName(Application.ExecutablePath) + @"\Users.csv", sb.ToString());
         }
+
+     
     }
 }
